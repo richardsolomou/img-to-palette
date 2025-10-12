@@ -1,4 +1,4 @@
-import nearestColor from "nearest-color";
+import { differenceCiede2000, nearest } from "culori";
 import { tailwindColors } from "../tailwind-colors";
 import type { Color } from "../types";
 
@@ -51,17 +51,34 @@ for (const family of colorFamilies) {
   }
 }
 
-// Create the nearest color finder
-const findNearest = nearestColor.from(tailwindColorMap);
+// Create the nearest color finder using CIEDE2000 for perceptually accurate color matching
+const colorNames = Object.keys(tailwindColorMap);
+const findNearest = nearest(
+  colorNames,
+  differenceCiede2000(),
+  (name: string) => tailwindColorMap[name] || "#000000"
+);
 
 /**
- * Find the closest Tailwind v4 color to a given color using nearest-color
+ * Find the closest Tailwind v4 color to a given color using CIEDE2000 color difference algorithm.
+ * This provides more perceptually accurate matching compared to simple RGB Euclidean distance.
  */
 export function findClosestTailwindColor(color: Color): TailwindColorMatch {
-  const result = findNearest(color.hex);
+  const result = findNearest(color.hex, 1);
 
   // Fallback to black if no match found (should never happen with our complete color map)
-  if (!result) {
+  if (!result || result.length === 0) {
+    return {
+      colorName: "black",
+      scale: null,
+      hex: tailwindColors.black.hex,
+    };
+  }
+
+  const closestColorName = result[0];
+
+  // Should never happen, but handle undefined case
+  if (!closestColorName) {
     return {
       colorName: "black",
       scale: null,
@@ -70,16 +87,16 @@ export function findClosestTailwindColor(color: Color): TailwindColorMatch {
   }
 
   // Parse the color name to extract family and scale
-  if (result.name === "black" || result.name === "white") {
+  if (closestColorName === "black" || closestColorName === "white") {
     return {
-      colorName: result.name,
+      colorName: closestColorName,
       scale: null,
-      hex: result.value,
+      hex: tailwindColorMap[closestColorName] || tailwindColors.black.hex,
     };
   }
 
   // Parse "family-scale" format
-  const parts = result.name.split("-");
+  const parts = closestColorName.split("-");
   const lastPart = parts.at(-1);
 
   // Fallback if parsing fails
@@ -97,6 +114,6 @@ export function findClosestTailwindColor(color: Color): TailwindColorMatch {
   return {
     colorName,
     scale,
-    hex: result.value,
+    hex: tailwindColorMap[closestColorName] || tailwindColors.black.hex,
   };
 }
