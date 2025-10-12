@@ -1,5 +1,9 @@
-import { Vibrant } from "node-vibrant/browser";
+import { Vibrant, WorkerPipeline } from "node-vibrant/worker";
+import PipelineWorker from "node-vibrant/worker.worker?worker";
 import type { Color } from "./types";
+
+// Configure Vibrant to use Web Workers for better performance
+Vibrant.use(new WorkerPipeline(PipelineWorker as never));
 
 /**
  * Converts RGB to HSL
