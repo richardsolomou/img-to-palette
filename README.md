@@ -1,46 +1,26 @@
-# @ras-sh/template-tanstack-start
+# img-to-palette
 
-🚀 Full-stack template with TanStack Start. Includes SSR, file-based routing, and modern tooling.
+🎨 Generate color palettes from any image and find the nearest Tailwind colors for quick design matching.
+
+**[Try it live →](https://img-to-palette.ras.sh)**
 
 ## Features
 
-- **[TanStack Start](https://tanstack.com/start)** - Full-stack React framework with SSR
-- **TypeScript** - End-to-end type safety
-- **Tailwind CSS v4** + **@ras-sh/ui** - Modern styling and components
+- **Smart color extraction** — extracts dominant colors using advanced clustering algorithms
+- **Website-ready palettes** — primary, secondary, accent, background, and text colors
+- **Accessibility insights** — contrast ratios and WCAG compliance information
+- **Multi-format support** — JPEG, PNG, GIF, WebP
+- **Drag & drop interface** — or click to select
+- **Export options** — CSS variables, Tailwind config, JSON, and more
+- **Framework examples** — CSS, Tailwind, Sass, JavaScript with syntax highlighting
 
-## Quick Start
+## Tech Stack
 
-```bash
-pnpm install
-pnpm dev
-```
+Built with [TanStack Start](https://tanstack.com/start) and powered by [sharp](https://github.com/lovell/sharp).
 
-## Building Your App
+## Development
 
-1. Build routes in `src/routes/` with SSR loaders
-2. Add components in `src/components/`
-3. Update `package.json` and branding assets
-
-## Scripts
-
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start development server (port 5173) |
-| `pnpm build` | Build for production |
-| `pnpm preview` | Preview production build |
-| `pnpm check-types` | Run TypeScript type checking |
-| `pnpm check` | Run linter checks |
-| `pnpm fix` | Auto-fix linting issues |
-
-## Project Structure
-
-```
-src/
-├── routes/         # File-based routing with SSR loaders
-├── components/     # Reusable components
-├── lib/            # Utilities (SEO helper, etc.)
-└── router.tsx      # Router configuration
-```
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup and guidelines.
 
 ## License
 
