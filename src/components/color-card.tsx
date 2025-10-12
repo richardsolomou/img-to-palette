@@ -11,7 +11,12 @@ type ColorCardProps = {
   matches: TailwindColorMatch[];
   selectedFormat: ColorFormat;
   copiedColor: string | null;
-  onCopyColor: (value: string, colorName: string, format: ColorFormat) => void;
+  onCopyColor: (
+    value: string,
+    colorName: string,
+    format: ColorFormat,
+    isExtracted?: boolean
+  ) => void;
 };
 
 function ColorCardComponent({
@@ -67,7 +72,8 @@ function ColorCardComponent({
             onCopyColor(
               extractedFormattedValue,
               `Color ${colorIndex + 1}`,
-              selectedFormat
+              selectedFormat,
+              true
             )
           }
           style={{ backgroundColor: color.hex }}
@@ -130,7 +136,8 @@ function ColorCardComponent({
                       onCopyColor(
                         formattedValue,
                         tailwindColorName,
-                        selectedFormat
+                        selectedFormat,
+                        false
                       )
                     }
                     style={{ backgroundColor: match.hex }}

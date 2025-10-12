@@ -1,5 +1,6 @@
 import { Button, cn } from "@ras-sh/ui";
 import { Check } from "lucide-react";
+import posthog from "posthog-js";
 import { useState } from "react";
 import type { ColorFormat } from "~/lib/utils/color-formatter";
 import { formatOptions } from "~/lib/utils/color-formatter";
@@ -60,6 +61,11 @@ export function FormatSelector({
                   )}
                   key={option.value}
                   onClick={() => {
+                    posthog.capture("format_changed", {
+                      project: "img-to-palette",
+                      from_format: selectedFormat,
+                      to_format: option.value,
+                    });
                     onFormatChange(option.value);
                     setIsOpen(false);
                   }}

@@ -1,3 +1,4 @@
+import posthog from "posthog-js";
 import { useCallback, useState } from "react";
 import { extractPalette } from "~/lib/palette-extractor.server";
 import type { ProcessedPalette } from "~/lib/types";
@@ -51,8 +52,26 @@ export function usePaletteGenerator() {
       try {
         const processed = await processImage(imageFile);
         setProcessedPalettes([processed]);
+
+        // Track successful palette extraction
+        posthog.capture("palette_extracted", {
+          project: "img-to-palette",
+          color_count: processed.palette.length,
+          processing_time_ms: processed.processingTime,
+          file_size: imageFile.size,
+          file_type: imageFile.type,
+        });
       } catch (error) {
         console.error(`Error processing ${imageFile.name}:`, error);
+
+        // Track extraction failure
+        posthog.capture("palette_extraction_failed", {
+          project: "img-to-palette",
+          error_message:
+            error instanceof Error ? error.message : "Unknown error",
+          file_size: imageFile.size,
+          file_type: imageFile.type,
+        });
       } finally {
         setProcessing(false);
       }

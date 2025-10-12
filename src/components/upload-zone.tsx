@@ -37,24 +37,35 @@ export function UploadZone({ onDrop, processing }: UploadZoneProps) {
         return;
       }
 
+      let errorMessage: string;
       switch (fileError.code) {
         case "file-too-large":
-          setError("File is too large. Maximum size is 4.5MB.");
+          errorMessage = "File is too large. Maximum size is 4.5MB.";
           break;
         case "file-too-small":
-          setError("File is too small. Please upload a valid image.");
+          errorMessage = "File is too small. Please upload a valid image.";
           break;
         case "file-invalid-type":
-          setError(
-            "Invalid file type. Please upload a JPG, PNG, GIF, or WebP."
-          );
+          errorMessage =
+            "Invalid file type. Please upload a JPG, PNG, GIF, or WebP.";
           break;
         case "too-many-files":
-          setError("Too many files. Please upload only one image.");
+          errorMessage = "Too many files. Please upload only one image.";
           break;
         default:
-          setError("Failed to upload file. Please try again.");
+          errorMessage = "Failed to upload file. Please try again.";
       }
+
+      setError(errorMessage);
+
+      // Track upload rejection
+      posthog.capture("upload_rejected", {
+        project: "img-to-palette",
+        error_code: fileError.code,
+        error_message: errorMessage,
+        file_size: rejection.file.size,
+        file_type: rejection.file.type,
+      });
     },
     accept: {
       "image/jpeg": [".jpg", ".jpeg"],
