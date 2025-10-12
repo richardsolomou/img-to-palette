@@ -1,8 +1,8 @@
 import posthog from "posthog-js";
 import { useCallback, useState } from "react";
-import { extractPalette } from "~/lib/palette-extractor.server";
+import { extractPalette } from "~/lib/palette-extractor";
 import type { ProcessedPalette } from "~/lib/types";
-import { fileToBase64, readFileAsDataURL } from "~/lib/utils/file-reader";
+import { readFileAsDataURL } from "~/lib/utils/file-reader";
 
 /**
  * Hook for processing uploaded images and extracting color palettes
@@ -17,16 +17,11 @@ export function usePaletteGenerator() {
     async (file: File): Promise<ProcessedPalette> => {
       const startTime = Date.now();
 
-      // Read file for preview and server processing
-      const [originalDataUrl, base64] = await Promise.all([
-        readFileAsDataURL(file),
-        fileToBase64(file),
-      ]);
+      // Read file for preview
+      const originalDataUrl = await readFileAsDataURL(file);
 
-      // Extract palette on server
-      const result = await extractPalette({
-        data: { imageBuffer: base64 },
-      });
+      // Extract palette in the browser
+      const result = await extractPalette(originalDataUrl);
 
       return {
         original: originalDataUrl,

@@ -1,16 +1,5 @@
-import { createServerFn } from "@tanstack/react-start";
-import { Vibrant } from "node-vibrant/node";
-import { z } from "zod";
+import { Vibrant } from "node-vibrant/browser";
 import type { Color } from "./types";
-
-const ExtractPaletteInputSchema = z.object({
-  imageBuffer: z.string(),
-});
-
-type ExtractPaletteResult = {
-  palette: Color[];
-  originalFilename: string;
-};
 
 /**
  * Converts RGB to HSL
@@ -57,11 +46,11 @@ function rgbToHsl(
 }
 
 /**
- * Extracts dominant colors from an image buffer using node-vibrant
+ * Extracts dominant colors from an image using node-vibrant in the browser
  */
-async function extractColors(buffer: Buffer): Promise<Color[]> {
+async function extractColors(imageSource: string): Promise<Color[]> {
   // Use node-vibrant to extract colors
-  const palette = await Vibrant.from(buffer).getPalette();
+  const palette = await Vibrant.from(imageSource).getPalette();
 
   const colors: Color[] = [];
 
@@ -111,19 +100,15 @@ async function extractColors(buffer: Buffer): Promise<Color[]> {
 }
 
 /**
- * Server function to extract color palette from an uploaded image
+ * Client-side function to extract color palette from an uploaded image
  */
-export const extractPalette = createServerFn({ method: "POST" })
-  .inputValidator(ExtractPaletteInputSchema)
-  .handler(async ({ data }): Promise<ExtractPaletteResult> => {
-    const { imageBuffer } = data;
-    const buffer = Buffer.from(imageBuffer, "base64");
+export async function extractPalette(
+  imageDataUrl: string
+): Promise<{ palette: Color[] }> {
+  // Extract dominant colors from the image data URL
+  const palette = await extractColors(imageDataUrl);
 
-    // Extract dominant colors
-    const palette = await extractColors(buffer);
-
-    return {
-      palette,
-      originalFilename: "palette",
-    };
-  });
+  return {
+    palette,
+  };
+}

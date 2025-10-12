@@ -39,9 +39,6 @@ export function UploadZone({ onDrop, processing }: UploadZoneProps) {
 
       let errorMessage: string;
       switch (fileError.code) {
-        case "file-too-large":
-          errorMessage = "File is too large. Maximum size is 4.5MB.";
-          break;
         case "file-too-small":
           errorMessage = "File is too small. Please upload a valid image.";
           break;
@@ -73,7 +70,6 @@ export function UploadZone({ onDrop, processing }: UploadZoneProps) {
       "image/gif": [".gif"],
       "image/webp": [".webp"],
     },
-    maxSize: 4_718_592, // 4.5MB in bytes
     disabled: processing,
     multiple: false,
   });
