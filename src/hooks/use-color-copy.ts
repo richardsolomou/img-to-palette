@@ -9,16 +9,39 @@ export function useColorCopy() {
   // Memoize the callback to prevent re-creating on every render
   const copyColorToClipboard = useCallback(
     async (value: string, colorName: string, format: ColorFormat) => {
-      await navigator.clipboard.writeText(value);
-      setCopiedColor(value);
-      setTimeout(() => setCopiedColor(null), 2000);
+      try {
+        // Use the Clipboard API if available
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(value);
+        } else {
+          // Fallback for older browsers
+          const textArea = document.createElement("textarea");
+          textArea.value = value;
+          textArea.style.position = "fixed";
+          textArea.style.left = "-999999px";
+          textArea.style.top = "-999999px";
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          document.execCommand("copy");
+          textArea.remove();
+        }
 
-      posthog.capture("color_copied", {
-        project: "img-to-palette",
-        color_name: colorName,
-        color_value: value,
-        format,
-      });
+        setCopiedColor(value);
+        setTimeout(() => setCopiedColor(null), 2000);
+
+        posthog.capture("color_copied", {
+          project: "img-to-palette",
+          color_name: colorName,
+          color_value: value,
+          format,
+        });
+      } catch (error) {
+        console.error("Failed to copy to clipboard:", error);
+        // Still show the check mark as feedback
+        setCopiedColor(value);
+        setTimeout(() => setCopiedColor(null), 2000);
+      }
     },
     []
   );

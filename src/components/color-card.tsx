@@ -62,7 +62,7 @@ function ColorCardComponent({
       {/* Extracted color - larger on left */}
       <div className="space-y-1.5">
         <button
-          className="group relative h-20 w-full overflow-hidden rounded-lg border border-zinc-800 transition-all hover:scale-105 hover:border-zinc-600 sm:h-26.5"
+          className="group relative h-20 w-full overflow-hidden rounded-lg border border-zinc-800 transition-all hover:scale-105 hover:border-zinc-600 active:scale-95 sm:h-26.5"
           onClick={() =>
             onCopyColor(
               extractedFormattedValue,
@@ -74,7 +74,8 @@ function ColorCardComponent({
           title={`Original: ${color.hex}`}
           type="button"
         >
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 p-2 opacity-0 transition-opacity group-hover:opacity-100">
+          {/* Desktop hover overlay with full info */}
+          <div className="absolute inset-0 hidden flex-col items-center justify-center bg-black/70 p-2 opacity-0 transition-opacity group-hover:opacity-100 sm:flex">
             {extractedIsCopied ? (
               <Check className="size-5 text-green-400" />
             ) : (
@@ -84,10 +85,26 @@ function ColorCardComponent({
               {extractedFormattedValue}
             </span>
           </div>
+          {/* Mobile copy button - just icon in center */}
+          <div className="absolute inset-0 flex items-center justify-center sm:hidden">
+            {extractedIsCopied ? (
+              <div className="rounded-full bg-black/70 p-2">
+                <Check className="size-5 text-green-400" />
+              </div>
+            ) : (
+              <div className="rounded-full bg-black/70 p-2">
+                <Copy className="size-5 text-white" />
+              </div>
+            )}
+          </div>
         </button>
         <div className="text-center">
           <p className="font-mono text-xs text-zinc-500">
             Original ({color.hex})
+          </p>
+          {/* Show formatted value on mobile */}
+          <p className="mt-0.5 font-mono text-xs text-zinc-400 sm:hidden">
+            {extractedFormattedValue}
           </p>
         </div>
       </div>
@@ -108,7 +125,7 @@ function ColorCardComponent({
                   key={`match-${match.hex}-${matchIndex}`}
                 >
                   <button
-                    className="group relative h-14 w-full overflow-hidden rounded-lg border border-zinc-800 transition-all hover:scale-105 hover:border-zinc-600 sm:h-20"
+                    className="group relative h-14 w-full overflow-hidden rounded-lg border border-zinc-800 transition-all hover:scale-105 hover:border-zinc-600 active:scale-95 sm:h-20"
                     onClick={() =>
                       onCopyColor(
                         formattedValue,
@@ -120,7 +137,8 @@ function ColorCardComponent({
                     title={`${match.hex} - ${tailwindColorName}`}
                     type="button"
                   >
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 p-2 opacity-0 transition-opacity group-hover:opacity-100">
+                    {/* Desktop hover overlay with full info */}
+                    <div className="absolute inset-0 hidden flex-col items-center justify-center bg-black/70 p-2 opacity-0 transition-opacity group-hover:opacity-100 sm:flex">
                       {isCopied ? (
                         <Check className="size-4 text-green-400" />
                       ) : (
@@ -130,10 +148,26 @@ function ColorCardComponent({
                         {formattedValue}
                       </span>
                     </div>
+                    {/* Mobile copy button - just icon in center */}
+                    <div className="absolute inset-0 flex items-center justify-center sm:hidden">
+                      {isCopied ? (
+                        <div className="rounded-full bg-black/70 p-1.5">
+                          <Check className="size-4 text-green-400" />
+                        </div>
+                      ) : (
+                        <div className="rounded-full bg-black/70 p-1.5">
+                          <Copy className="size-4 text-white" />
+                        </div>
+                      )}
+                    </div>
                   </button>
                   <div className="text-center">
                     <p className="truncate font-mono text-xs text-zinc-400">
                       {tailwindColorName}
+                    </p>
+                    {/* Show formatted value on mobile */}
+                    <p className="mt-0.5 truncate font-mono text-xs text-zinc-500 sm:hidden">
+                      {formattedValue}
                     </p>
                   </div>
                 </div>
