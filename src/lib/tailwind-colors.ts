@@ -1,3 +1,8 @@
+/**
+ * Tailwind CSS color palette
+ * @see https://tailwindcss.com/docs/colors
+ * @see https://github.com/shadcn-ui/ui/blob/main/apps/v4/registry/registry-colors.ts
+ */
 export const tailwindColors = {
   inherit: "inherit",
   current: "currentColor",

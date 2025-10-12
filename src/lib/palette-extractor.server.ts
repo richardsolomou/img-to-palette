@@ -1,15 +1,14 @@
 import { createServerFn } from "@tanstack/react-start";
 import { Vibrant } from "node-vibrant/node";
 import { z } from "zod";
-import { CONTRAST_RATIOS } from "./constants";
-import type { Color, ColorPalette, ColorRole, ContrastCheck } from "./types";
+import type { Color } from "./types";
 
 const ExtractPaletteInputSchema = z.object({
   imageBuffer: z.string(),
 });
 
 type ExtractPaletteResult = {
-  palette: ColorPalette;
+  palette: Color[];
   originalFilename: string;
 };
 
@@ -54,169 +53,6 @@ function rgbToHsl(
     h: Math.round(h * 360),
     s: Math.round(s * 100),
     l: Math.round(l * 100),
-  };
-}
-
-/**
- * Calculates relative luminance for contrast ratio
- */
-function getLuminance(r: number, g: number, b: number): number {
-  const [rs, gs, bs] = [r, g, b].map((c) => {
-    const normalized = c / 255;
-    return normalized <= 0.039_28
-      ? normalized / 12.92
-      : ((normalized + 0.055) / 1.055) ** 2.4;
-  });
-  return 0.2126 * (rs ?? 0) + 0.7152 * (gs ?? 0) + 0.0722 * (bs ?? 0);
-}
-
-/**
- * Calculates WCAG contrast ratio between two colors
- */
-function getContrastRatio(
-  color1: { r: number; g: number; b: number },
-  color2: { r: number; g: number; b: number }
-): number {
-  const lum1 = getLuminance(color1.r, color1.g, color1.b);
-  const lum2 = getLuminance(color2.r, color2.g, color2.b);
-  const lighter = Math.max(lum1, lum2);
-  const darker = Math.min(lum1, lum2);
-  return (lighter + 0.05) / (darker + 0.05);
-}
-
-/**
- * Checks if contrast meets WCAG standards
- */
-function checkContrast(ratio: number): ContrastCheck {
-  return {
-    normalText: ratio >= CONTRAST_RATIOS.AA_NORMAL,
-    largeText: ratio >= CONTRAST_RATIOS.AA_LARGE,
-    ratio: Math.round(ratio * 100) / 100,
-  };
-}
-
-/**
- * Determines if a color is light or dark based on its luminance
- */
-function isLightColor(r: number, g: number, b: number): boolean {
-  return getLuminance(r, g, b) > 0.5;
-}
-
-/**
- * Calculates color saturation
- */
-function getColorSaturation(hsl: { h: number; s: number; l: number }): number {
-  return hsl.s;
-}
-
-/**
- * Assigns roles to extracted colors based on their properties
- */
-function assignColorRoles(colors: Color[]): {
-  primary: ColorRole;
-  secondary: ColorRole;
-  accent: ColorRole;
-  background: ColorRole;
-  text: ColorRole;
-} {
-  // Sort colors by percentage (most dominant first)
-  const sortedByDominance = [...colors].sort(
-    (a, b) => b.percentage - a.percentage
-  );
-
-  // Separate light and dark colors
-  const lightColors = colors.filter((c) =>
-    isLightColor(c.rgb.r, c.rgb.g, c.rgb.b)
-  );
-  const darkColors = colors.filter(
-    (c) => !isLightColor(c.rgb.r, c.rgb.g, c.rgb.b)
-  );
-
-  // Sort by saturation for accent color
-  const sortedBySaturation = [...colors].sort(
-    (a, b) => getColorSaturation(b.hsl) - getColorSaturation(a.hsl)
-  );
-
-  // Assign roles
-  // Primary: Most dominant color
-  const primary = sortedByDominance[0] ?? colors[0];
-  if (!primary) {
-    throw new Error("No colors found in image");
-  }
-
-  // Secondary: Second most dominant, but different from primary
-  const secondary =
-    sortedByDominance.find(
-      (c) => c.hex !== primary.hex && Math.abs(c.hsl.h - primary.hsl.h) > 30
-    ) ??
-    sortedByDominance[1] ??
-    primary;
-
-  // Accent: Most saturated color (good for CTAs)
-  const accent =
-    sortedBySaturation.find(
-      (c) => c.hex !== primary.hex && c.hex !== secondary.hex && c.hsl.s > 40
-    ) ??
-    sortedBySaturation[0] ??
-    primary;
-
-  // Background: Lightest color if available, otherwise use a light neutral
-  const background =
-    lightColors.length > 0
-      ? lightColors.reduce((lightest, c) =>
-          c.hsl.l > lightest.hsl.l ? c : lightest
-        )
-      : {
-          hex: "#ffffff",
-          rgb: { r: 255, g: 255, b: 255 },
-          hsl: { h: 0, s: 0, l: 100 },
-          percentage: 0,
-        };
-
-  // Text: Darkest color if available, otherwise use dark neutral
-  const text =
-    darkColors.length > 0
-      ? darkColors.reduce((darkest, c) =>
-          c.hsl.l < darkest.hsl.l ? c : darkest
-        )
-      : {
-          hex: "#000000",
-          rgb: { r: 0, g: 0, b: 0 },
-          hsl: { h: 0, s: 0, l: 0 },
-          percentage: 0,
-        };
-
-  return {
-    primary: {
-      name: "Primary",
-      description: "Main brand color, most dominant in the image",
-      color: primary,
-      usage: "Headers, primary buttons, links",
-    },
-    secondary: {
-      name: "Secondary",
-      description: "Supporting color for variety and depth",
-      color: secondary,
-      usage: "Secondary buttons, accents, borders",
-    },
-    accent: {
-      name: "Accent",
-      description: "High-impact color for calls-to-action",
-      color: accent,
-      usage: "CTAs, highlights, important UI elements",
-    },
-    background: {
-      name: "Background",
-      description: "Light base color for content areas",
-      color: background,
-      usage: "Page background, cards, containers",
-    },
-    text: {
-      name: "Text",
-      description: "Dark color optimized for readability",
-      color: text,
-      usage: "Body text, headings, descriptions",
-    },
   };
 }
 
@@ -284,34 +120,7 @@ export const extractPalette = createServerFn({ method: "POST" })
     const buffer = Buffer.from(imageBuffer, "base64");
 
     // Extract dominant colors
-    const allColors = await extractColors(buffer);
-
-    // Assign roles to colors
-    const roles = assignColorRoles(allColors);
-
-    // Calculate contrast ratios
-    const primaryOnBackground = getContrastRatio(
-      roles.primary.color.rgb,
-      roles.background.color.rgb
-    );
-    const textOnBackground = getContrastRatio(
-      roles.text.color.rgb,
-      roles.background.color.rgb
-    );
-    const primaryOnText = getContrastRatio(
-      roles.primary.color.rgb,
-      roles.text.color.rgb
-    );
-
-    const palette: ColorPalette = {
-      ...roles,
-      allColors,
-      contrast: {
-        primaryOnBackground: checkContrast(primaryOnBackground),
-        textOnBackground: checkContrast(textOnBackground),
-        primaryOnText: checkContrast(primaryOnText),
-      },
-    };
+    const palette = await extractColors(buffer);
 
     return {
       palette,

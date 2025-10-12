@@ -27,10 +27,10 @@ export function ResultsView({
 
   const tailwindMatches = useMemo(
     () =>
-      processedPalette.palette.allColors.map((color) =>
+      processedPalette.palette.map((color) =>
         findClosestTailwindColors(color, 3)
       ),
-    [processedPalette.palette.allColors]
+    [processedPalette.palette]
   );
 
   return (
@@ -53,7 +53,7 @@ export function ResultsView({
           </Button>
         </div>
         <ImagePreview
-          extractedColors={processedPalette.palette.allColors}
+          extractedColors={processedPalette.palette}
           imageSrc={processedPalette.original}
         />
       </div>
@@ -69,7 +69,7 @@ export function ResultsView({
         </div>
 
         <div className="space-y-8 sm:space-y-4">
-          {processedPalette.palette.allColors.map((color, i) => {
+          {processedPalette.palette.map((color, i) => {
             const matches = tailwindMatches[i];
 
             if (!matches || matches.length === 0) {

@@ -2,7 +2,7 @@ import { Check, Copy } from "lucide-react";
 import { memo, useMemo } from "react";
 import type { Color } from "~/lib/types";
 import type { ColorFormat } from "~/lib/utils/color-formatter";
-import { formatColor } from "~/lib/utils/color-formatter";
+import { formatColor, formatTailwindColor } from "~/lib/utils/color-formatter";
 import type { TailwindColorMatch } from "~/lib/utils/color-matcher";
 
 type ColorCardProps = {
@@ -22,7 +22,7 @@ function ColorCardComponent({
   copiedColor,
   onCopyColor,
 }: ColorCardProps) {
-  // Memoize formatted values to avoid recalculating on every render
+  // Format extracted color from image (requires conversion via culori)
   const extractedFormattedValue = useMemo(
     () => formatColor(color, selectedFormat),
     [color, selectedFormat]
@@ -30,7 +30,7 @@ function ColorCardComponent({
 
   const extractedIsCopied = copiedColor === extractedFormattedValue;
 
-  // Memoize Tailwind match formatted values
+  // Format Tailwind matches using pre-formatted values (no conversion needed)
   const formattedMatches = useMemo(
     () =>
       matches.map((match) => {
@@ -42,12 +42,12 @@ function ColorCardComponent({
         return {
           match,
           tailwindColorName,
-          formattedValue: formatColor(
+          formattedValue: formatTailwindColor(
             {
               hex: match.hex,
-              rgb: { r: 0, g: 0, b: 0 },
-              hsl: { h: 0, s: 0, l: 0 },
-              percentage: 0,
+              rgb: match.rgb,
+              hsl: match.hsl,
+              oklch: match.oklch,
             },
             selectedFormat,
             tailwindColorName

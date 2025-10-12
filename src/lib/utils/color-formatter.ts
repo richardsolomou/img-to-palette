@@ -18,13 +18,10 @@ export const formatOptions: FormatOption[] = [
 ];
 
 /**
- * Format a color in different formats for copying
+ * Format an extracted color from an image
+ * Converts the color to the requested format using culori library
  */
-export function formatColor(
-  color: Color,
-  format: ColorFormat,
-  tailwindName?: string
-): string {
+export function formatColor(color: Color, format: ColorFormat): string {
   switch (format) {
     case "hex":
       return color.hex;
@@ -46,19 +43,11 @@ export function formatColor(
       return `oklch(${l} ${c} ${h})`;
     }
 
-    case "var": {
-      if (tailwindName) {
-        return `--color-${tailwindName}`;
-      }
+    case "var":
       return "--color-custom";
-    }
 
-    case "className": {
-      if (tailwindName) {
-        return `bg-${tailwindName}`;
-      }
+    case "className":
       return color.hex;
-    }
 
     default:
       return color.hex;
@@ -66,23 +55,33 @@ export function formatColor(
 }
 
 /**
- * Get a display-friendly version of the formatted color
+ * Format a Tailwind color match using pre-formatted color values
+ * No conversion needed - uses the pre-formatted strings from tailwind-colors.ts
  */
-export function getDisplayValue(
-  color: Color,
+export function formatTailwindColor(
+  colorFormats: {
+    hex: string;
+    rgb: string;
+    hsl: string;
+    oklch: string;
+  },
   format: ColorFormat,
-  tailwindName?: string
+  tailwindName: string
 ): string {
-  const formatted = formatColor(color, format, tailwindName);
-
-  // For var and className, show a more complete example
-  if (format === "var") {
-    return formatted;
+  switch (format) {
+    case "hex":
+      return colorFormats.hex;
+    case "rgb":
+      return colorFormats.rgb;
+    case "hsl":
+      return colorFormats.hsl;
+    case "oklch":
+      return colorFormats.oklch;
+    case "var":
+      return `--color-${tailwindName}`;
+    case "className":
+      return `bg-${tailwindName}`;
+    default:
+      return colorFormats.hex;
   }
-
-  if (format === "className" && tailwindName) {
-    return `bg-${tailwindName}`;
-  }
-
-  return formatted;
 }
