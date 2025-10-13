@@ -5,6 +5,15 @@ import { useState } from "react";
 import type { ColorFormat } from "~/lib/utils/color-formatter";
 import { formatOptions } from "~/lib/utils/color-formatter";
 
+const formatExamples: Record<ColorFormat, string> = {
+  hex: "#fafafa",
+  rgb: "250 250 250",
+  hsl: "0 0% 98%",
+  oklch: "0.99 0.00 0",
+  var: "--color-neutral-50",
+  className: "bg-neutral-50",
+};
+
 type FormatSelectorProps = {
   selectedFormat: ColorFormat;
   onFormatChange: (format: ColorFormat) => void;
@@ -73,13 +82,18 @@ export function FormatSelector({
                 >
                   <Check
                     className={cn(
-                      "size-4",
+                      "size-4 flex-shrink-0",
                       selectedFormat === option.value
                         ? "opacity-100"
                         : "opacity-0"
                     )}
                   />
-                  {option.label}
+                  <div className="flex flex-1 flex-col gap-0.5">
+                    <span className="text-zinc-200">{option.label}</span>
+                    <span className="text-xs text-zinc-500">
+                      {formatExamples[option.value]}
+                    </span>
+                  </div>
                 </button>
               ))}
             </div>

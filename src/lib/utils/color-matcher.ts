@@ -1,4 +1,12 @@
-import { differenceCiede2000, nearest } from "culori";
+import {
+  differenceCiede2000,
+  formatHex,
+  formatHsl,
+  formatRgb,
+  nearest,
+  oklch,
+  parse,
+} from "culori";
 import { tailwindColors } from "../tailwind-colors";
 import type { Color } from "../types";
 
@@ -12,12 +20,69 @@ export type TailwindColorMatch = {
   distance?: number;
 };
 
+/**
+ * Convert an OKLCH string to hex, rgb, hsl formats
+ */
+function convertOklchToFormats(oklchString: string) {
+  const color = parse(oklchString);
+  if (!color) {
+    return {
+      hex: "#000000",
+      rgb: "rgb(0, 0, 0)",
+      hsl: "hsl(0, 0%, 0%)",
+      oklch: oklchString,
+    };
+  }
+
+  const hex = formatHex(color) || "#000000";
+  const rgb = formatRgb(color) || "rgb(0, 0, 0)";
+  const hsl = formatHsl(color) || "hsl(0, 0%, 0%)";
+
+  return {
+    hex,
+    rgb,
+    hsl,
+    oklch: oklchString,
+  };
+}
+
+/**
+ * Convert a hex string to all color formats
+ */
+function convertHexToFormats(hexString: string) {
+  const color = parse(hexString);
+  if (!color) {
+    return {
+      hex: hexString,
+      rgb: "rgb(0, 0, 0)",
+      hsl: "hsl(0, 0%, 0%)",
+      oklch: "oklch(0 0 0)",
+    };
+  }
+
+  const rgb = formatRgb(color) || "rgb(0, 0, 0)";
+  const hsl = formatHsl(color) || "hsl(0, 0%, 0%)";
+
+  const oklchColor = oklch(color);
+  const l = oklchColor?.l?.toFixed(2) ?? "0.00";
+  const c = oklchColor?.c?.toFixed(2) ?? "0.00";
+  const h = oklchColor?.h?.toFixed(0) ?? "0";
+  const oklchString = `oklch(${l} ${c} ${h})`;
+
+  return {
+    hex: hexString,
+    rgb,
+    hsl,
+    oklch: oklchString,
+  };
+}
+
 // Build a flat map of all Tailwind colors with their names
 const tailwindColorMap: Record<string, string> = {};
 
 // Add black and white
-tailwindColorMap.black = tailwindColors.black.hex;
-tailwindColorMap.white = tailwindColors.white.hex;
+tailwindColorMap.black = tailwindColors.black;
+tailwindColorMap.white = tailwindColors.white;
 
 // Add all color families
 const colorFamilies = [
@@ -47,10 +112,13 @@ const colorFamilies = [
 
 for (const family of colorFamilies) {
   const colorScale = tailwindColors[family];
-  if (Array.isArray(colorScale)) {
-    for (const shade of colorScale) {
-      const colorName = `${family}-${shade.scale}`;
-      tailwindColorMap[colorName] = shade.hex;
+  if (typeof colorScale === "object" && !Array.isArray(colorScale)) {
+    for (const [scale, oklchValue] of Object.entries(colorScale)) {
+      const colorName = `${family}-${scale}`;
+      // Convert OKLCH to hex for color matching
+      const color = parse(oklchValue);
+      const hex = color ? formatHex(color) : "#000000";
+      tailwindColorMap[colorName] = hex;
     }
   }
 }
@@ -69,10 +137,7 @@ const findNearest = nearest(
 const DEFAULT_COLOR_MATCH: TailwindColorMatch = {
   colorName: "black",
   scale: null,
-  hex: tailwindColors.black.hex,
-  rgb: tailwindColors.black.rgb,
-  hsl: tailwindColors.black.hsl,
-  oklch: tailwindColors.black.oklch,
+  ...convertHexToFormats(tailwindColors.black),
 };
 
 /**
@@ -84,10 +149,7 @@ function parseColorName(colorName: string): TailwindColorMatch {
     return {
       colorName: "black",
       scale: null,
-      hex: tailwindColors.black.hex,
-      rgb: tailwindColors.black.rgb,
-      hsl: tailwindColors.black.hsl,
-      oklch: tailwindColors.black.oklch,
+      ...convertHexToFormats(tailwindColors.black),
     };
   }
 
@@ -95,10 +157,7 @@ function parseColorName(colorName: string): TailwindColorMatch {
     return {
       colorName: "white",
       scale: null,
-      hex: tailwindColors.white.hex,
-      rgb: tailwindColors.white.rgb,
-      hsl: tailwindColors.white.hsl,
-      oklch: tailwindColors.white.oklch,
+      ...convertHexToFormats(tailwindColors.white),
     };
   }
 
@@ -116,16 +175,13 @@ function parseColorName(colorName: string): TailwindColorMatch {
 
   // Find the color in the tailwind colors object
   const colorFamily = tailwindColors[family as keyof typeof tailwindColors];
-  if (Array.isArray(colorFamily)) {
-    const shade = colorFamily.find((s) => s.scale === scale);
-    if (shade) {
+  if (typeof colorFamily === "object" && !Array.isArray(colorFamily)) {
+    const oklchValue = colorFamily[lastPart as keyof typeof colorFamily];
+    if (oklchValue && typeof oklchValue === "string") {
       return {
         colorName: family,
         scale,
-        hex: shade.hex,
-        rgb: shade.rgb,
-        hsl: shade.hsl,
-        oklch: shade.oklch,
+        ...convertOklchToFormats(oklchValue),
       };
     }
   }
