@@ -1,6 +1,5 @@
 import { Button, cn } from "@ras-sh/ui";
 import { Check } from "lucide-react";
-import posthog from "posthog-js";
 import { useState } from "react";
 import type { ColorFormat } from "~/lib/utils/color-formatter";
 import { formatOptions } from "~/lib/utils/color-formatter";
@@ -68,13 +67,11 @@ export function FormatSelector({
                     "relative flex w-full items-center gap-2 rounded-md px-3 py-2 text-left font-mono text-sm transition-colors hover:bg-zinc-800",
                     selectedFormat === option.value && "bg-zinc-800"
                   )}
+                  data-umami-event="format_changed"
+                  data-umami-event-from-format={selectedFormat}
+                  data-umami-event-to-format={option.value}
                   key={option.value}
                   onClick={() => {
-                    posthog.capture("format_changed", {
-                      project: "img-to-palette",
-                      from_format: selectedFormat,
-                      to_format: option.value,
-                    });
                     onFormatChange(option.value);
                     setIsOpen(false);
                   }}

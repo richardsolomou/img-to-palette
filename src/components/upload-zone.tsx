@@ -1,6 +1,5 @@
 import { cn } from "@ras-sh/ui";
 import { AlertCircle, Upload } from "lucide-react";
-import posthog from "posthog-js";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 
@@ -17,8 +16,7 @@ export function UploadZone({ onDrop, processing }: UploadZoneProps) {
       setError(null);
       const file = files[0];
       if (file) {
-        posthog.capture("image_uploaded", {
-          project: "img-to-palette",
+        window.umami?.track("image_uploaded", {
           file_type: file.type,
           file_size: file.size,
           upload_method: isDragActive ? "drag_drop" : "file_picker",
@@ -56,8 +54,7 @@ export function UploadZone({ onDrop, processing }: UploadZoneProps) {
       setError(errorMessage);
 
       // Track upload rejection
-      posthog.capture("upload_rejected", {
-        project: "img-to-palette",
+      window.umami?.track("upload_rejected", {
         error_code: fileError.code,
         error_message: errorMessage,
         file_size: rejection.file.size,

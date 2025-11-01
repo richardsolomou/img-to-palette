@@ -1,4 +1,3 @@
-import posthog from "posthog-js";
 import { useCallback, useState } from "react";
 import type { ColorFormat } from "~/lib/utils/color-formatter";
 
@@ -35,8 +34,7 @@ export function useColorCopy() {
         setCopiedColor(value);
         setTimeout(() => setCopiedColor(null), 2000);
 
-        posthog.capture("color_copied", {
-          project: "img-to-palette",
+        window.umami?.track("color_copied", {
           color_name: colorName,
           color_value: value,
           format,

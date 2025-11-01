@@ -1,6 +1,5 @@
 import { Button } from "@ras-sh/ui";
 import { RotateCcw } from "lucide-react";
-import posthog from "posthog-js";
 import { useMemo } from "react";
 import { ColorCard } from "~/components/color-card";
 import { FormatSelector } from "~/components/format-selector";
@@ -40,12 +39,8 @@ export function ResultsView({
         <div className="flex items-center justify-between">
           <h3 className="font-semibold text-zinc-100">Original Image</h3>
           <Button
-            onClick={() => {
-              posthog.capture("process_new_image_clicked", {
-                project: "img-to-palette",
-              });
-              onProcessMore();
-            }}
+            data-umami-event="process_new_image_clicked"
+            onClick={onProcessMore}
             size="sm"
           >
             <RotateCcw className="size-4" />
