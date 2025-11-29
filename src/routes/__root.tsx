@@ -1,8 +1,11 @@
 /// <reference types="vite/client" />
+import geistWoff2 from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
+import geistMonoWoff2 from "@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2?url";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import type * as React from "react";
 import { DefaultCatchBoundary } from "~/components/default-catch-boundary";
 import { NotFound } from "~/components/not-found";
+import { PHProvider } from "~/components/ph-provider";
 import { seo } from "~/lib/seo";
 import appCss from "~/styles/app.css?url";
 
@@ -22,15 +25,22 @@ export const Route = createRootRoute({
           "🎨 Generate color palettes from any image and find the nearest Tailwind colors for quick design matching.",
       }),
     ],
-    scripts: [
-      {
-        src: "https://u.tronite.com/script.js",
-        defer: true,
-        "data-website-id": "889b87f4-940a-47cf-92ca-def9c1fb4060",
-      },
-    ],
     links: [
       { rel: "stylesheet", href: appCss },
+      {
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: geistWoff2,
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "preload",
+        as: "font",
+        type: "font/woff2",
+        href: geistMonoWoff2,
+        crossOrigin: "anonymous",
+      },
       {
         rel: "apple-touch-icon",
         sizes: "180x180",
@@ -64,7 +74,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="dark min-h-dvh font-sans text-foreground antialiased">
-        {children}
+        <PHProvider>{children}</PHProvider>
         <Scripts />
       </body>
     </html>

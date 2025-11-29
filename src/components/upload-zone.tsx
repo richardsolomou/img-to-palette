@@ -1,7 +1,9 @@
+import { usePostHog } from "@posthog/react";
 import { cn } from "@ras-sh/ui";
 import { AlertCircle, Upload } from "lucide-react";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { getFileSizeBucket } from "~/lib/utils/analytics";
 
 type UploadZoneProps = {
   onDrop: (files: File[]) => void;
@@ -9,6 +11,7 @@ type UploadZoneProps = {
 };
 
 export function UploadZone({ onDrop, processing }: UploadZoneProps) {
+  const posthog = usePostHog();
   const [error, setError] = useState<string | null>(null);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -16,9 +19,10 @@ export function UploadZone({ onDrop, processing }: UploadZoneProps) {
       setError(null);
       const file = files[0];
       if (file) {
-        window.umami?.track("image_uploaded", {
+        posthog?.capture("image_uploaded", {
           file_type: file.type,
-          file_size: file.size,
+          file_size_bytes: file.size,
+          file_size_bucket: getFileSizeBucket(file.size),
           upload_method: isDragActive ? "drag_drop" : "file_picker",
         });
       }
@@ -53,12 +57,11 @@ export function UploadZone({ onDrop, processing }: UploadZoneProps) {
 
       setError(errorMessage);
 
-      // Track upload rejection
-      window.umami?.track("upload_rejected", {
+      posthog?.capture("upload_rejected", {
         error_code: fileError.code,
-        error_message: errorMessage,
-        file_size: rejection.file.size,
         file_type: rejection.file.type,
+        file_size_bytes: rejection.file.size,
+        file_size_bucket: getFileSizeBucket(rejection.file.size),
       });
     },
     accept: {
@@ -102,9 +105,9 @@ export function UploadZone({ onDrop, processing }: UploadZoneProps) {
         </div>
       </div>
 
-      {error && (
+      {!!error && (
         <div className="mx-auto flex max-w-md items-center gap-3 rounded-lg border border-red-900/50 bg-red-950/30 p-4 text-red-400">
-          <AlertCircle className="h-5 w-5 flex-shrink-0" />
+          <AlertCircle className="h-5 w-5 shrink-0" />
           <p className="text-sm">{error}</p>
         </div>
       )}

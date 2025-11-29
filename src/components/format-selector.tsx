@@ -1,3 +1,4 @@
+import { usePostHog } from "@posthog/react";
 import { Button, cn } from "@ras-sh/ui";
 import { Check } from "lucide-react";
 import { useState } from "react";
@@ -22,6 +23,7 @@ export function FormatSelector({
   selectedFormat,
   onFormatChange,
 }: FormatSelectorProps) {
+  const posthog = usePostHog();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -35,7 +37,10 @@ export function FormatSelector({
         {formatOptions.find((opt) => opt.value === selectedFormat)?.label}
         <svg
           aria-label="Dropdown arrow"
-          className={cn("size-4 transition-transform", isOpen && "rotate-180")}
+          className={cn(
+            "size-4 transition-transform",
+            !!isOpen && "rotate-180"
+          )}
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -46,7 +51,7 @@ export function FormatSelector({
         </svg>
       </Button>
 
-      {isOpen && (
+      {!!isOpen && (
         <>
           <button
             aria-label="Close dropdown"
@@ -67,11 +72,14 @@ export function FormatSelector({
                     "relative flex w-full items-center gap-2 rounded-md px-3 py-2 text-left font-mono text-sm transition-colors hover:bg-zinc-800",
                     selectedFormat === option.value && "bg-zinc-800"
                   )}
-                  data-umami-event="format_changed"
-                  data-umami-event-from-format={selectedFormat}
-                  data-umami-event-to-format={option.value}
                   key={option.value}
                   onClick={() => {
+                    if (selectedFormat !== option.value) {
+                      posthog?.capture("format_changed", {
+                        from_format: selectedFormat,
+                        to_format: option.value,
+                      });
+                    }
                     onFormatChange(option.value);
                     setIsOpen(false);
                   }}

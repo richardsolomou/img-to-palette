@@ -9,8 +9,11 @@ export default defineConfig({
   plugins: [
     tsConfigPaths(),
     tanstackStart(),
-    nitro({ config: { preset: "vercel", node: true } }),
+    nitro({ preset: "vercel", node: true }),
     viteReact(),
     tailwindcss(),
   ],
+  ssr: {
+    noExternal: ["posthog-js", "@posthog/react"],
+  },
 });

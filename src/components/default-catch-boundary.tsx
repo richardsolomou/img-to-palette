@@ -1,3 +1,4 @@
+import { Button } from "@ras-sh/ui/button";
 import type { ErrorComponentProps } from "@tanstack/react-router";
 import {
   ErrorComponent,
@@ -6,6 +7,7 @@ import {
   useMatch,
   useRouter,
 } from "@tanstack/react-router";
+import { ArrowLeft, Home, RefreshCcw } from "lucide-react";
 
 export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
   const router = useRouter();
@@ -15,43 +17,55 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
   });
 
   return (
-    <div className="flex min-w-0 flex-1 flex-col items-center justify-center gap-6 p-4">
-      <ErrorComponent error={error} />
-      <div className="flex flex-wrap items-center gap-2">
-        <button
-          className={
-            "rounded bg-gray-600 px-2 py-1 font-extrabold text-white uppercase dark:bg-gray-700"
-          }
-          onClick={() => {
-            router.invalidate();
-          }}
-          type="button"
-        >
-          Try Again
-        </button>
-        {isRoot ? (
-          <Link
-            className={
-              "rounded bg-gray-600 px-2 py-1 font-extrabold text-white uppercase dark:bg-gray-700"
-            }
-            to="/"
-          >
-            Home
-          </Link>
-        ) : (
-          <Link
-            className={
-              "rounded bg-gray-600 px-2 py-1 font-extrabold text-white uppercase dark:bg-gray-700"
-            }
-            onClick={(e) => {
-              e.preventDefault();
-              window.history.back();
+    <div className="flex min-h-[400px] min-w-0 flex-1 flex-col items-center justify-center gap-8 px-4 py-12">
+      <div className="mx-auto max-w-3xl space-y-6 text-center">
+        <div className="space-y-3">
+          <h1 className="font-bold text-3xl tracking-tight sm:text-4xl md:text-5xl">
+            Something went wrong
+          </h1>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            An error occurred while processing your request. Please try again or
+            go back to continue.
+          </p>
+        </div>
+
+        <div className="rounded-lg border bg-muted/30 p-4 text-left">
+          <ErrorComponent error={error} />
+        </div>
+
+        <div className="flex flex-col flex-wrap items-center justify-center gap-3 pt-2 sm:flex-row sm:gap-4">
+          <Button
+            onClick={() => {
+              router.invalidate();
             }}
-            to="/"
+            size="lg"
+            type="button"
           >
-            Go Back
-          </Link>
-        )}
+            <RefreshCcw aria-hidden="true" />
+            Try again
+          </Button>
+          {isRoot ? (
+            <Button asChild size="lg" variant="outline">
+              <Link to="/">
+                <Home aria-hidden="true" />
+                Go home
+              </Link>
+            </Button>
+          ) : (
+            <Button asChild size="lg" variant="outline">
+              <Link
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.history.back();
+                }}
+                to="/"
+              >
+                <ArrowLeft aria-hidden="true" />
+                Go back
+              </Link>
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

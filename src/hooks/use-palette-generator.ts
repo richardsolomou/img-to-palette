@@ -1,12 +1,15 @@
+import { usePostHog } from "@posthog/react";
 import { useCallback, useState } from "react";
 import { extractPalette } from "~/lib/palette-extractor";
 import type { ProcessedPalette } from "~/lib/types";
+import { getFileSizeBucket } from "~/lib/utils/analytics";
 import { readFileAsDataURL } from "~/lib/utils/file-reader";
 
 /**
  * Hook for processing uploaded images and extracting color palettes
  */
 export function usePaletteGenerator() {
+  const posthog = usePostHog();
   const [processing, setProcessing] = useState(false);
   const [processedPalettes, setProcessedPalettes] = useState<
     ProcessedPalette[]
@@ -47,28 +50,28 @@ export function usePaletteGenerator() {
         const processed = await processImage(imageFile);
         setProcessedPalettes([processed]);
 
-        // Track successful palette extraction
-        window.umami?.track("palette_extracted", {
+        posthog?.capture("palette_extracted", {
           color_count: processed.palette.length,
           processing_time_ms: processed.processingTime,
-          file_size: imageFile.size,
           file_type: imageFile.type,
+          file_size_bytes: imageFile.size,
+          file_size_bucket: getFileSizeBucket(imageFile.size),
         });
       } catch (error) {
         console.error(`Error processing ${imageFile.name}:`, error);
 
-        // Track extraction failure
-        window.umami?.track("palette_extraction_failed", {
+        posthog?.capture("palette_extraction_failed", {
           error_message:
             error instanceof Error ? error.message : "Unknown error",
-          file_size: imageFile.size,
           file_type: imageFile.type,
+          file_size_bytes: imageFile.size,
+          file_size_bucket: getFileSizeBucket(imageFile.size),
         });
       } finally {
         setProcessing(false);
       }
     },
-    [processImage]
+    [processImage, posthog]
   );
 
   const clearAll = useCallback(() => {

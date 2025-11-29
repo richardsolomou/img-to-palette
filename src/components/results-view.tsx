@@ -1,3 +1,4 @@
+import { usePostHog } from "@posthog/react";
 import { Button } from "@ras-sh/ui";
 import { RotateCcw } from "lucide-react";
 import { useMemo } from "react";
@@ -17,6 +18,7 @@ export function ResultsView({
   processedPalette,
   onProcessMore,
 }: ResultsViewProps) {
+  const posthog = usePostHog();
   const {
     copiedColor,
     selectedFormat,
@@ -39,8 +41,12 @@ export function ResultsView({
         <div className="flex items-center justify-between">
           <h3 className="font-semibold text-zinc-100">Original Image</h3>
           <Button
-            data-umami-event="process_new_image_clicked"
-            onClick={onProcessMore}
+            onClick={() => {
+              posthog?.capture("process_new_image_clicked", {
+                palette_color_count: processedPalette.palette.length,
+              });
+              onProcessMore();
+            }}
             size="sm"
           >
             <RotateCcw className="size-4" />

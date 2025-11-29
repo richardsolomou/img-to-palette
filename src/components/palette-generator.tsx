@@ -10,7 +10,7 @@ export function PaletteGenerator() {
 
   return (
     <div className="w-full">
-      {showResults && processedPalettes[0] ? (
+      {!!showResults && !!processedPalettes[0] ? (
         <ResultsView
           onProcessMore={clearAll}
           processedPalette={processedPalettes[0]}

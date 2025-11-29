@@ -1,7 +1,9 @@
+import { usePostHog } from "@posthog/react";
 import { useCallback, useState } from "react";
 import type { ColorFormat } from "~/lib/utils/color-formatter";
 
 export function useColorCopy() {
+  const posthog = usePostHog();
   const [copiedColor, setCopiedColor] = useState<string | null>(null);
   const [selectedFormat, setSelectedFormat] = useState<ColorFormat>("oklch");
 
@@ -34,9 +36,8 @@ export function useColorCopy() {
         setCopiedColor(value);
         setTimeout(() => setCopiedColor(null), 2000);
 
-        window.umami?.track("color_copied", {
+        posthog?.capture("color_copied", {
           color_name: colorName,
-          color_value: value,
           format,
           color_type: isExtracted ? "extracted" : "tailwind_match",
         });
@@ -47,7 +48,7 @@ export function useColorCopy() {
         setTimeout(() => setCopiedColor(null), 2000);
       }
     },
-    []
+    [posthog]
   );
 
   return {

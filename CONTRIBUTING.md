@@ -12,7 +12,7 @@ Thank you for your interest in contributing! This guide will help you get starte
 ### Setup
 
 ```bash
-git clone https://github.com/ras-sh/img-to-palette.git
+git clone https://github.com/richardsolomou/img-to-palette.git
 cd img-to-palette
 pnpm install
 ```
