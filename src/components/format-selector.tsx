@@ -19,10 +19,7 @@ type FormatSelectorProps = {
   onFormatChange: (format: ColorFormat) => void;
 };
 
-export function FormatSelector({
-  selectedFormat,
-  onFormatChange,
-}: FormatSelectorProps) {
+export function FormatSelector({ selectedFormat, onFormatChange }: FormatSelectorProps) {
   const posthog = usePostHog();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,14 +30,10 @@ export function FormatSelector({
         onClick={() => setIsOpen(!isOpen)}
         variant="outline"
       >
-        Format:{" "}
-        {formatOptions.find((opt) => opt.value === selectedFormat)?.label}
+        Format: {formatOptions.find((opt) => opt.value === selectedFormat)?.label}
         <svg
           aria-label="Dropdown arrow"
-          className={cn(
-            "size-4 transition-transform",
-            !!isOpen && "rotate-180"
-          )}
+          className={cn("size-4 transition-transform", !!isOpen && "rotate-180")}
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -70,7 +63,7 @@ export function FormatSelector({
                 <button
                   className={cn(
                     "relative flex w-full items-center gap-2 rounded-md px-3 py-2 text-left font-mono text-sm transition-colors hover:bg-zinc-800",
-                    selectedFormat === option.value && "bg-zinc-800"
+                    selectedFormat === option.value && "bg-zinc-800",
                   )}
                   key={option.value}
                   onClick={() => {
@@ -88,16 +81,12 @@ export function FormatSelector({
                   <Check
                     className={cn(
                       "size-4 flex-shrink-0",
-                      selectedFormat === option.value
-                        ? "opacity-100"
-                        : "opacity-0"
+                      selectedFormat === option.value ? "opacity-100" : "opacity-0",
                     )}
                   />
                   <div className="flex flex-1 flex-col gap-0.5">
                     <span className="text-zinc-200">{option.label}</span>
-                    <span className="text-xs text-zinc-500">
-                      {formatExamples[option.value]}
-                    </span>
+                    <span className="text-xs text-zinc-500">{formatExamples[option.value]}</span>
                   </div>
                 </button>
               ))}

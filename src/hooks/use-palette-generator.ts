@@ -11,29 +11,24 @@ import { readFileAsDataURL } from "~/lib/utils/file-reader";
 export function usePaletteGenerator() {
   const posthog = usePostHog();
   const [processing, setProcessing] = useState(false);
-  const [processedPalettes, setProcessedPalettes] = useState<
-    ProcessedPalette[]
-  >([]);
+  const [processedPalettes, setProcessedPalettes] = useState<ProcessedPalette[]>([]);
 
-  const processImage = useCallback(
-    async (file: File): Promise<ProcessedPalette> => {
-      const startTime = Date.now();
+  const processImage = useCallback(async (file: File): Promise<ProcessedPalette> => {
+    const startTime = Date.now();
 
-      // Read file for preview
-      const originalDataUrl = await readFileAsDataURL(file);
+    // Read file for preview
+    const originalDataUrl = await readFileAsDataURL(file);
 
-      // Extract palette in the browser
-      const result = await extractPalette(originalDataUrl);
+    // Extract palette in the browser
+    const result = await extractPalette(originalDataUrl);
 
-      return {
-        original: originalDataUrl,
-        palette: result.palette,
-        filename: file.name,
-        processingTime: Date.now() - startTime,
-      };
-    },
-    []
-  );
+    return {
+      original: originalDataUrl,
+      palette: result.palette,
+      filename: file.name,
+      processingTime: Date.now() - startTime,
+    };
+  }, []);
 
   const processFiles = useCallback(
     async (files: File[]) => {
@@ -61,8 +56,7 @@ export function usePaletteGenerator() {
         console.error(`Error processing ${imageFile.name}:`, error);
 
         posthog?.capture("palette_extraction_failed", {
-          error_message:
-            error instanceof Error ? error.message : "Unknown error",
+          error_message: error instanceof Error ? error.message : "Unknown error",
           file_type: imageFile.type,
           file_size_bytes: imageFile.size,
           file_size_bucket: getFileSizeBucket(imageFile.size),
@@ -71,7 +65,7 @@ export function usePaletteGenerator() {
         setProcessing(false);
       }
     },
-    [processImage, posthog]
+    [processImage, posthog],
   );
 
   const clearAll = useCallback(() => {

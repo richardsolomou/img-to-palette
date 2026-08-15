@@ -128,7 +128,7 @@ const colorNames = Object.keys(tailwindColorMap);
 const findNearest = nearest(
   colorNames,
   differenceCiede2000(),
-  (name: string) => tailwindColorMap[name] || "#000000"
+  (name: string) => tailwindColorMap[name] || "#000000",
 );
 
 /**
@@ -206,10 +206,7 @@ export function findClosestTailwindColor(color: Color): TailwindColorMatch {
  * @param count - Number of matches to return (default: 3)
  * @returns Array of closest Tailwind colors with pre-formatted color values
  */
-export function findClosestTailwindColors(
-  color: Color,
-  count = 3
-): TailwindColorMatch[] {
+export function findClosestTailwindColors(color: Color, count = 3): TailwindColorMatch[] {
   const results = findNearest(color.hex, count);
 
   // Fallback to black if no match found (should never happen with complete color map)

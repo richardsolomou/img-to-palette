@@ -11,7 +11,7 @@ Vibrant.use(new WorkerPipeline(PipelineWorker as never));
 function rgbToHsl(
   rInput: number,
   gInput: number,
-  bInput: number
+  bInput: number,
 ): { h: number; s: number; l: number } {
   const r = rInput / 255;
   const g = gInput / 255;
@@ -78,11 +78,7 @@ async function extractColors(imageSource: string): Promise<Color[]> {
           g: Math.round(rgb[1]),
           b: Math.round(rgb[2]),
         },
-        hsl: rgbToHsl(
-          Math.round(rgb[0]),
-          Math.round(rgb[1]),
-          Math.round(rgb[2])
-        ),
+        hsl: rgbToHsl(Math.round(rgb[0]), Math.round(rgb[1]), Math.round(rgb[2])),
         percentage: swatch.population,
       });
     }
@@ -95,8 +91,7 @@ async function extractColors(imageSource: string): Promise<Color[]> {
   const totalPopulation = colors.reduce((sum, c) => sum + c.percentage, 0);
   if (totalPopulation > 0) {
     for (const color of colors) {
-      color.percentage =
-        Math.round((color.percentage / totalPopulation) * 10_000) / 100;
+      color.percentage = Math.round((color.percentage / totalPopulation) * 10_000) / 100;
     }
   }
 
@@ -106,9 +101,7 @@ async function extractColors(imageSource: string): Promise<Color[]> {
 /**
  * Client-side function to extract color palette from an uploaded image
  */
-export async function extractPalette(
-  imageDataUrl: string
-): Promise<{ palette: Color[] }> {
+export async function extractPalette(imageDataUrl: string): Promise<{ palette: Color[] }> {
   // Extract dominant colors from the image data URL
   const palette = await extractColors(imageDataUrl);
 

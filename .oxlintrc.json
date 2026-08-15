@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "./node_modules/ras-stack/config/oxlint/application.json",
+    "./node_modules/ras-stack/config/oxlint/tanstack.json"
+  ],
+  "rules": {
+    "jsx-a11y/no-static-element-interactions": "off",
+    "unicorn/prefer-array-find": "off",
+    "import/default": "off",
+    "eslint/no-shadow": "off",
+    "eslint/no-unused-vars": "off",
+    "jsx-a11y/control-has-associated-label": "off",
+    "jsx-a11y/heading-has-content": "off",
+    "jsx-a11y/no-autofocus": "off",
+    "react/no-array-index-key": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "typescript/no-floating-promises": "off",
+    "typescript/no-unnecessary-type-conversion": "off",
+    "typescript/await-thenable": "off"
+  }
+}

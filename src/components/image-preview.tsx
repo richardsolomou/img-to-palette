@@ -6,10 +6,7 @@ type ImagePreviewProps = {
   extractedColors: Color[];
 };
 
-function ImagePreviewComponent({
-  imageSrc,
-  extractedColors,
-}: ImagePreviewProps) {
+function ImagePreviewComponent({ imageSrc, extractedColors }: ImagePreviewProps) {
   return (
     <div className="relative overflow-hidden rounded-lg border border-zinc-800 bg-[conic-gradient(#e5e5e5_90deg,#ffffff_90deg_180deg,#e5e5e5_180deg_270deg,#ffffff_270deg)] bg-[length:20px_20px] p-8">
       <img

@@ -45,8 +45,7 @@ export function UploadZone({ onDrop, processing }: UploadZoneProps) {
           errorMessage = "File is too small. Please upload a valid image.";
           break;
         case "file-invalid-type":
-          errorMessage =
-            "Invalid file type. Please upload a JPG, PNG, GIF, or WebP.";
+          errorMessage = "Invalid file type. Please upload a JPG, PNG, GIF, or WebP.";
           break;
         case "too-many-files":
           errorMessage = "Too many files. Please upload only one image.";
@@ -83,7 +82,7 @@ export function UploadZone({ onDrop, processing }: UploadZoneProps) {
           isDragActive
             ? "border-zinc-100 bg-zinc-900/50"
             : "border-zinc-700 hover:border-zinc-600 hover:bg-zinc-900/30",
-          processing ? "pointer-events-none opacity-50" : ""
+          processing ? "pointer-events-none opacity-50" : "",
         )}
       >
         <input {...getInputProps()} />

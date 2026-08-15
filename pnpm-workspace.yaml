@@ -1,0 +1,10 @@
+allowBuilds:
+  "@swc/core": true
+  core-js: true
+  esbuild: true
+  lefthook: true
+  protobufjs: false
+
+minimumReleaseAgeExclude:
+  - ras-stack@0.39.1
+minimumReleaseAge: 10080
