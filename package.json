@@ -1,25 +1,20 @@
 {
   "name": "img-to-palette",
   "version": "0.0.3",
-  "type": "module",
   "private": true,
   "description": "🎨 Generate color palettes from any image and find the nearest Tailwind colors for quick design matching.",
   "keywords": [
     "color",
-    "palette",
-    "image",
-    "design",
     "colors",
-    "extraction"
+    "design",
+    "extraction",
+    "image",
+    "palette"
   ],
   "homepage": "https://img-to-palette.ras.sh",
   "bugs": {
     "url": "https://github.com/richardsolomou/img-to-palette/issues",
     "email": "richard@solomou.dev"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/richardsolomou/img-to-palette"
   },
   "license": "MIT",
   "author": {
@@ -27,13 +22,19 @@
     "email": "richard@solomou.dev",
     "url": "https://solomou.dev"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/richardsolomou/img-to-palette"
+  },
+  "type": "module",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
     "check-types": "tsc --noEmit",
-    "check": "ultracite check",
-    "fix": "ultracite fix --unsafe"
+    "check": "oxfmt --check . && oxlint --type-aware --deny-warnings .",
+    "fix": "oxfmt --write . && oxlint --type-aware --fix .",
+    "policy:check": "ras policy check"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.2.8",
@@ -53,20 +54,25 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.13",
-    "@ras-sh/typescript-config": "^0.0.3",
     "@tailwindcss/vite": "^4.1.18",
     "@types/culori": "^4.0.1",
-    "@types/node": "^24.10.1",
+    "@types/node": "^26.2.0",
     "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.3",
     "lefthook": "^2.0.16",
     "nitro": "3.0.1-alpha.1",
+    "oxfmt": "0.62.0",
+    "oxlint": "1.77.0",
+    "oxlint-tsgolint": "7.0.2001",
+    "ras-stack": "0.39.1",
     "tailwindcss": "^4.1.18",
-    "typescript": "^5.9.3",
-    "ultracite": "6.3.8",
+    "typescript": "^7.0.2",
     "vite": "^7.3.1",
     "vite-tsconfig-paths": "^5.1.4"
-  }
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "pnpm@11.15.0"
 }

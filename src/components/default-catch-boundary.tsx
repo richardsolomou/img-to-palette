@@ -1,12 +1,6 @@
 import { Button } from "@ras-sh/ui/button";
 import type { ErrorComponentProps } from "@tanstack/react-router";
-import {
-  ErrorComponent,
-  Link,
-  rootRouteId,
-  useMatch,
-  useRouter,
-} from "@tanstack/react-router";
+import { ErrorComponent, Link, rootRouteId, useMatch, useRouter } from "@tanstack/react-router";
 import { ArrowLeft, Home, RefreshCcw } from "lucide-react";
 
 export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
@@ -24,8 +18,8 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
             Something went wrong
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            An error occurred while processing your request. Please try again or
-            go back to continue.
+            An error occurred while processing your request. Please try again or go back to
+            continue.
           </p>
         </div>
 

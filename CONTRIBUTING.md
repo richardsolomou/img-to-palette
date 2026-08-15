@@ -48,6 +48,7 @@ pnpm build
 ### Code Quality
 
 This project uses:
+
 - **TypeScript**: Strict type checking
 - **Ultracite (Biome)**: Fast formatter and linter
 - **TanStack Start**: React framework

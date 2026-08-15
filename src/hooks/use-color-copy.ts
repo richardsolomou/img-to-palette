@@ -9,12 +9,7 @@ export function useColorCopy() {
 
   // Memoize the callback to prevent re-creating on every render
   const copyColorToClipboard = useCallback(
-    async (
-      value: string,
-      colorName: string,
-      format: ColorFormat,
-      isExtracted = false
-    ) => {
+    async (value: string, colorName: string, format: ColorFormat, isExtracted = false) => {
       try {
         // Use the Clipboard API if available
         if (navigator.clipboard?.writeText) {
@@ -48,7 +43,7 @@ export function useColorCopy() {
         setTimeout(() => setCopiedColor(null), 2000);
       }
     },
-    [posthog]
+    [posthog],
   );
 
   return {

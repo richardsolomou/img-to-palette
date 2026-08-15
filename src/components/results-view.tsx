@@ -14,24 +14,13 @@ type ResultsViewProps = {
   onProcessMore: () => void;
 };
 
-export function ResultsView({
-  processedPalette,
-  onProcessMore,
-}: ResultsViewProps) {
+export function ResultsView({ processedPalette, onProcessMore }: ResultsViewProps) {
   const posthog = usePostHog();
-  const {
-    copiedColor,
-    selectedFormat,
-    setSelectedFormat,
-    copyColorToClipboard,
-  } = useColorCopy();
+  const { copiedColor, selectedFormat, setSelectedFormat, copyColorToClipboard } = useColorCopy();
 
   const tailwindMatches = useMemo(
-    () =>
-      processedPalette.palette.map((color) =>
-        findClosestTailwindColors(color, 3)
-      ),
-    [processedPalette.palette]
+    () => processedPalette.palette.map((color) => findClosestTailwindColors(color, 3)),
+    [processedPalette.palette],
   );
 
   return (
@@ -63,10 +52,7 @@ export function ResultsView({
       <div className="space-y-3">
         <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
           <h3 className="font-semibold text-zinc-100">Color Palette</h3>
-          <FormatSelector
-            onFormatChange={setSelectedFormat}
-            selectedFormat={selectedFormat}
-          />
+          <FormatSelector onFormatChange={setSelectedFormat} selectedFormat={selectedFormat} />
         </div>
 
         <div className="space-y-8 sm:space-y-4">

@@ -66,7 +66,7 @@ export function formatTailwindColor(
     oklch: string;
   },
   format: ColorFormat,
-  tailwindName: string
+  tailwindName: string,
 ): string {
   switch (format) {
     case "hex":
