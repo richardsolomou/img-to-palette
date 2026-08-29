@@ -15,8 +15,8 @@ coverage
 # Turbo
 .turbo
 
-# Vercel
-.vercel
+# Cloudflare
+.wrangler/
 
 # Build Outputs
 .next/
@@ -26,8 +26,6 @@ dist
 tsconfig.tsbuildinfo
 next-env.d.ts
 .tanstack/
-.output/
-.nitro/
 
 # Debug
 npm-debug.log*
