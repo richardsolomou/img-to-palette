@@ -6,6 +6,8 @@ allowBuilds:
   protobufjs: false
   workerd: true
 
-minimumReleaseAgeExclude:
-  - ras-stack@0.41.1
 minimumReleaseAge: 10080
+
+minimumReleaseAgeExclude:
+  - ras-stack-config@1.0.0
+  - ras-stack@3.0.0
