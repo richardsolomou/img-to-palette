@@ -11,11 +11,7 @@ export function PHProvider({ children }: { children: React.ReactNode }) {
     <PostHogIntegration
       environment={environment}
       ingestPath={environment?.host}
-      options={{
-        defaults: "2025-05-24",
-        capture_exceptions: true,
-        debug: import.meta.env.MODE === "development",
-      }}
+      options={{ debug: import.meta.env.MODE === "development" }}
     >
       {children}
     </PostHogIntegration>

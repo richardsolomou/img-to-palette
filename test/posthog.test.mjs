@@ -28,7 +28,7 @@ for (const token of ["phc_test", "", "   "]) {
         {
           key: token.trim() || undefined,
           host: token.trim() ? "https://eu.i.posthog.com" : undefined,
-          options: { defaults: "2025-05-24", capture_exceptions: true, debug: true },
+          options: { debug: true },
           html: "application",
         },
       );
