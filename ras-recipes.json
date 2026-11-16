@@ -69,7 +69,8 @@
         "Keeps the stylesheet at `src/styles/app.css`, so Tailwind's `source(\"../\")` points at `src/`, and it also imports the Geist fonts and `@ras-sh/ui`'s styles and scans that package for classes.",
         "The root route keeps its SEO, font preload, and icon head tags, its dark body classes, and its own error and not-found components, so the root route's error and not-found pages render inside the document.",
         "The router keeps the application's `DefaultCatchBoundary` and `NotFound` as its default error and not-found components.",
-        "`vite.config.ts` resolves the `~/*` alias with Vite's `resolve.tsconfigPaths`."
+        "`vite.config.ts` resolves the `~/*` alias with Vite's `resolve.tsconfigPaths`.",
+        "The Content Security Policy also allows GitHub images (`github.com` and `avatars.githubusercontent.com`) in `img-src` for the footer avatar."
       ]
     },
     "tooling": {
