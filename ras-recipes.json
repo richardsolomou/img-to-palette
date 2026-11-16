@@ -1,0 +1,101 @@
+{
+  "source": "https://github.com/richardsolomou/ras-stack",
+  "recipes": {
+    "ci": {
+      "version": 1,
+      "commit": "82fce4523ec914bd2e70aefd4bff84c10fb278c6",
+      "files": {
+        ".github/dependabot.yml": ".github/dependabot.yml",
+        ".github/workflows/ci.yml": ".github/workflows/ci.yml"
+      },
+      "notes": []
+    },
+    "deploy-cloudflare": {
+      "version": 1,
+      "commit": "82fce4523ec914bd2e70aefd4bff84c10fb278c6",
+      "files": {
+        "scripts/staticHeaders.ts": "scripts/staticHeaders.ts",
+        "wrangler.jsonc": "wrangler.jsonc"
+      },
+      "notes": []
+    },
+    "posthog-web": {
+      "version": 4,
+      "commit": "0184a1e1bc4ababa9b89b4455014ba13be436df2",
+      "files": {
+        "scripts/posthogSourceMaps.test.ts": "scripts/posthogSourceMaps.test.ts",
+        "scripts/posthogSourceMaps.ts": "scripts/posthogSourceMaps.ts",
+        "src/client/posthog.test.tsx": "src/client/posthog.test.tsx",
+        "src/client/posthog.tsx": "src/client/posthog.tsx",
+        "src/client/posthogOptions.test.ts": "src/client/posthogOptions.test.ts",
+        "src/client/posthogOptions.ts": "src/client/posthogOptions.ts",
+        "src/contracts/posthog.test.ts": "src/contracts/posthog.test.ts",
+        "src/contracts/posthog.ts": "src/contracts/posthog.ts",
+        "src/routes/t/$.ts": "src/routes/t/$.ts",
+        "src/server/posthogProxy.test.ts": "src/server/posthogProxy.test.ts",
+        "src/server/posthogProxy.ts": "src/server/posthogProxy.ts"
+      },
+      "notes": [
+        "`projectTokenVariable` is `VITE_POSTHOG_KEY`, the Workers Builds variable the application already used.",
+        "`src/contracts/bundledPostHog.test.ts` checks the bundled project reports to EU Cloud with `VITE_POSTHOG_KEY` and stays off without it.",
+        "`defaultHost` is EU Cloud, where the application's project lives, so `VITE_POSTHOG_HOST` stays unset."
+      ]
+    },
+    "start-app": {
+      "version": 3,
+      "commit": "0184a1e1bc4ababa9b89b4455014ba13be436df2",
+      "files": {
+        "src/client/chunkRecovery.test.ts": "src/client/chunkRecovery.test.ts",
+        "src/client/chunkRecovery.ts": "src/client/chunkRecovery.ts",
+        "src/client/queryClient.test.ts": "src/client/queryClient.test.ts",
+        "src/client/queryClient.ts": "src/client/queryClient.ts",
+        "src/router.tsx": "src/router.tsx",
+        "src/routes/__root.tsx": "src/routes/__root.tsx",
+        "src/routes/api/health.ts": "src/routes/api/health.ts",
+        "src/server/app.test.ts": "src/server/app.test.ts",
+        "src/server/app.ts": "src/server/app.ts",
+        "src/server/health.test.ts": "src/server/health.test.ts",
+        "src/server/health.ts": "src/server/health.ts",
+        "src/server/middleware.test.ts": "src/server/middleware.test.ts",
+        "src/server/middleware.ts": "src/server/middleware.ts",
+        "src/server/origins.test.ts": "src/server/origins.test.ts",
+        "src/server/origins.ts": "src/server/origins.ts",
+        "src/server/rpc.test.ts": "src/server/rpc.test.ts",
+        "src/server/rpc.ts": "src/server/rpc.ts",
+        "src/server/serverFunction.test.ts": "src/server/serverFunction.test.ts",
+        "src/server/serverFunction.ts": "src/server/serverFunction.ts",
+        "src/start.ts": "src/start.ts",
+        "src/styles.css": "src/styles/app.css",
+        "vite.config.ts": "vite.config.ts"
+      },
+      "notes": [
+        "Keeps the stylesheet at `src/styles/app.css`, so Tailwind's `source(\"../\")` points at `src/`, and it also imports the Geist fonts and `@ras-sh/ui`'s styles and scans that package for classes.",
+        "The root route keeps its SEO, font preload, and icon head tags, its dark body classes, and its own error and not-found components, so the root route's error and not-found pages render inside the document.",
+        "The router keeps the application's `DefaultCatchBoundary` and `NotFound` as its default error and not-found components.",
+        "`vite.config.ts` resolves the `~/*` alias with Vite's `resolve.tsconfigPaths`.",
+        "The Content Security Policy also allows GitHub images (`github.com` and `avatars.githubusercontent.com`) in `img-src` for the footer avatar."
+      ]
+    },
+    "tooling": {
+      "version": 2,
+      "commit": "82fce4523ec914bd2e70aefd4bff84c10fb278c6",
+      "files": {
+        ".gitignore": ".gitignore",
+        ".oxfmtrc.json": ".oxfmtrc.json",
+        ".oxlintrc.json": ".oxlintrc.json",
+        "AGENTS.md": "AGENTS.md",
+        "package.json": "package.json",
+        "pnpm-workspace.yaml": "pnpm-workspace.yaml",
+        "tsconfig.json": "tsconfig.json",
+        "vitest.config.ts": "vitest.config.ts"
+      },
+      "notes": [
+        "Keeps the `fix` script and the lefthook pre-commit hook that runs it, which the application had before adopting recipes.",
+        "Keeps the `~/*` path alias in `tsconfig.json`, which every application module imports through.",
+        "Ignores `.wrangler/`, `.tanstack/`, `coverage/`, and `.DS_Store` in `.gitignore` as well.",
+        "`.oxlintrc.json` turns off `import/default`, which cannot see the default export of Vite `?worker` imports, and `react/no-array-index-key`, because palette and match lists can repeat a hex value.",
+        "`allowBuilds` also lists `lefthook: true` for its git hook install."
+      ]
+    }
+  }
+}

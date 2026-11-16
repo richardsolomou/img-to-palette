@@ -1,11 +1,11 @@
-import { usePostHog } from "@posthog/react";
-import { useCallback, useState } from "react";
-import type { ColorFormat } from "~/lib/utils/color-formatter";
+import { usePostHog } from '@posthog/react'
+import { useCallback, useState } from 'react'
+import type { ColorFormat } from '~/lib/utils/color-formatter'
 
 export function useColorCopy() {
-  const posthog = usePostHog();
-  const [copiedColor, setCopiedColor] = useState<string | null>(null);
-  const [selectedFormat, setSelectedFormat] = useState<ColorFormat>("oklch");
+  const posthog = usePostHog()
+  const [copiedColor, setCopiedColor] = useState<string | null>(null)
+  const [selectedFormat, setSelectedFormat] = useState<ColorFormat>('oklch')
 
   // Memoize the callback to prevent re-creating on every render
   const copyColorToClipboard = useCallback(
@@ -13,43 +13,43 @@ export function useColorCopy() {
       try {
         // Use the Clipboard API if available
         if (navigator.clipboard?.writeText) {
-          await navigator.clipboard.writeText(value);
+          await navigator.clipboard.writeText(value)
         } else {
           // Fallback for older browsers
-          const textArea = document.createElement("textarea");
-          textArea.value = value;
-          textArea.style.position = "fixed";
-          textArea.style.left = "-999999px";
-          textArea.style.top = "-999999px";
-          document.body.appendChild(textArea);
-          textArea.focus();
-          textArea.select();
-          document.execCommand("copy");
-          textArea.remove();
+          const textArea = document.createElement('textarea')
+          textArea.value = value
+          textArea.style.position = 'fixed'
+          textArea.style.left = '-999999px'
+          textArea.style.top = '-999999px'
+          document.body.appendChild(textArea)
+          textArea.focus()
+          textArea.select()
+          document.execCommand('copy')
+          textArea.remove()
         }
 
-        setCopiedColor(value);
-        setTimeout(() => setCopiedColor(null), 2000);
+        setCopiedColor(value)
+        setTimeout(() => setCopiedColor(null), 2000)
 
-        posthog?.capture("color_copied", {
+        posthog?.capture('color_copied', {
           color_name: colorName,
           format,
-          color_type: isExtracted ? "extracted" : "tailwind_match",
-        });
+          color_type: isExtracted ? 'extracted' : 'tailwind_match',
+        })
       } catch (error) {
-        console.error("Failed to copy to clipboard:", error);
+        console.error('Failed to copy to clipboard:', error)
         // Still show the check mark as feedback
-        setCopiedColor(value);
-        setTimeout(() => setCopiedColor(null), 2000);
+        setCopiedColor(value)
+        setTimeout(() => setCopiedColor(null), 2000)
       }
     },
     [posthog],
-  );
+  )
 
   return {
     copiedColor,
     selectedFormat,
     setSelectedFormat,
     copyColorToClipboard,
-  };
+  }
 }

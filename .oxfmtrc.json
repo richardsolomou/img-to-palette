@@ -1,3 +1,5 @@
 {
-  "ignorePatterns": ["src/routeTree.gen.ts"]
+  "printWidth": 140,
+  "singleQuote": true,
+  "semi": false
 }

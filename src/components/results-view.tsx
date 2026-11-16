@@ -1,27 +1,27 @@
-import { usePostHog } from "@posthog/react";
-import { Button } from "@ras-sh/ui";
-import { RotateCcw } from "lucide-react";
-import { useMemo } from "react";
-import { ColorCard } from "~/components/color-card";
-import { FormatSelector } from "~/components/format-selector";
-import { ImagePreview } from "~/components/image-preview";
-import { useColorCopy } from "~/hooks/use-color-copy";
-import type { ProcessedPalette } from "~/lib/types";
-import { findClosestTailwindColors } from "~/lib/utils/color-matcher";
+import { usePostHog } from '@posthog/react'
+import { Button } from '@ras-sh/ui'
+import { RotateCcw } from 'lucide-react'
+import { useMemo } from 'react'
+import { ColorCard } from '~/components/color-card'
+import { FormatSelector } from '~/components/format-selector'
+import { ImagePreview } from '~/components/image-preview'
+import { useColorCopy } from '~/hooks/use-color-copy'
+import type { ProcessedPalette } from '~/lib/types'
+import { findClosestTailwindColors } from '~/lib/utils/color-matcher'
 
 type ResultsViewProps = {
-  processedPalette: ProcessedPalette;
-  onProcessMore: () => void;
-};
+  processedPalette: ProcessedPalette
+  onProcessMore: () => void
+}
 
 export function ResultsView({ processedPalette, onProcessMore }: ResultsViewProps) {
-  const posthog = usePostHog();
-  const { copiedColor, selectedFormat, setSelectedFormat, copyColorToClipboard } = useColorCopy();
+  const posthog = usePostHog()
+  const { copiedColor, selectedFormat, setSelectedFormat, copyColorToClipboard } = useColorCopy()
 
   const tailwindMatches = useMemo(
     () => processedPalette.palette.map((color) => findClosestTailwindColors(color, 3)),
     [processedPalette.palette],
-  );
+  )
 
   return (
     <div className="space-y-6">
@@ -31,10 +31,10 @@ export function ResultsView({ processedPalette, onProcessMore }: ResultsViewProp
           <h3 className="font-semibold text-zinc-100">Original Image</h3>
           <Button
             onClick={() => {
-              posthog?.capture("process_new_image_clicked", {
+              posthog?.capture('process_new_image_clicked', {
                 palette_color_count: processedPalette.palette.length,
-              });
-              onProcessMore();
+              })
+              onProcessMore()
             }}
             size="sm"
           >
@@ -42,10 +42,7 @@ export function ResultsView({ processedPalette, onProcessMore }: ResultsViewProp
             Process New Image
           </Button>
         </div>
-        <ImagePreview
-          extractedColors={processedPalette.palette}
-          imageSrc={processedPalette.original}
-        />
+        <ImagePreview extractedColors={processedPalette.palette} imageSrc={processedPalette.original} />
       </div>
 
       {/* Tailwind color suggestions */}
@@ -57,10 +54,10 @@ export function ResultsView({ processedPalette, onProcessMore }: ResultsViewProp
 
         <div className="space-y-8 sm:space-y-4">
           {processedPalette.palette.map((color, i) => {
-            const matches = tailwindMatches[i];
+            const matches = tailwindMatches[i]
 
             if (!matches || matches.length === 0) {
-              return null;
+              return null
             }
 
             return (
@@ -73,10 +70,10 @@ export function ResultsView({ processedPalette, onProcessMore }: ResultsViewProp
                 onCopyColor={copyColorToClipboard}
                 selectedFormat={selectedFormat}
               />
-            );
+            )
           })}
         </div>
       </div>
     </div>
-  );
+  )
 }

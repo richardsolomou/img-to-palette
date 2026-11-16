@@ -23,13 +23,10 @@ pnpm install
 # Start development server
 pnpm dev
 
-# Check types
-pnpm check-types
-
-# Run linting
+# Format, lint, build, type check, and test
 pnpm check
 
-# Fix linting issues
+# Fix formatting and linting issues
 pnpm fix
 
 # Build for production
@@ -41,16 +38,15 @@ pnpm build
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Run type checking: `pnpm check-types`
-5. Run linting: `pnpm check`
-6. Submit a pull request
+4. Run all checks: `pnpm check`
+5. Submit a pull request
 
 ### Code Quality
 
 This project uses:
 
 - **TypeScript**: Strict type checking
-- **Ultracite (Biome)**: Fast formatter and linter
+- **Oxlint and Oxfmt**: Linter and formatter
 - **TanStack Start**: React framework
 - **Tailwind CSS**: Utility-first CSS
 
