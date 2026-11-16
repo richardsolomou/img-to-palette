@@ -37,6 +37,7 @@
       },
       "notes": [
         "`projectTokenVariable` is `VITE_POSTHOG_KEY`, the Workers Builds variable the application already used.",
+        "`src/contracts/bundledPostHog.test.ts` checks the bundled project reports to EU Cloud with `VITE_POSTHOG_KEY` and stays off without it.",
         "`defaultHost` is EU Cloud, where the application's project lives, so `VITE_POSTHOG_HOST` stays unset."
       ]
     },
