@@ -7,3 +7,4 @@ dist/
 .tanstack/
 coverage/
 .DS_Store
+src/routeTree.gen.ts
