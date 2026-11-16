@@ -31,10 +31,13 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
-    "check-types": "tsc --noEmit",
-    "check": "oxfmt --check . && oxlint --type-aware --deny-warnings .",
-    "fix": "oxfmt --write . && oxlint --type-aware --fix .",
-    "test": "node --test test/*.test.mjs"
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint --type-aware --deny-warnings .",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
+    "test": "vitest run",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test",
+    "fix": "oxfmt --write . && oxlint --type-aware --fix ."
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
@@ -71,6 +74,7 @@
     "typescript": "^7.0.2",
     "vite": "^8.3.5",
     "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.12",
     "wrangler": "4.156.0"
   },
   "engines": {

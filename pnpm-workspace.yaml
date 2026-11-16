@@ -1,13 +1,12 @@
+minimumReleaseAge: 10080
+minimumReleaseAgeExclude:
+  - 'posthog-*'
+  - '@posthog/*'
+  - ras-stack
 allowBuilds:
-  "@swc/core": true
+  '@swc/core': true
   core-js: true
   esbuild: true
   lefthook: true
   protobufjs: false
   workerd: true
-
-minimumReleaseAge: 10080
-
-minimumReleaseAgeExclude:
-  - ras-stack-config@3.0.0
-  - ras-stack@4.0.0
