@@ -4,6 +4,7 @@ dist/
 .env.*
 !.env.example
 .wrangler/
+.dev.vars*
 .tanstack/
 coverage/
 .DS_Store

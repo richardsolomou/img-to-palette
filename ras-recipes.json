@@ -1,6 +1,15 @@
 {
   "source": "https://github.com/richardsolomou/ras-stack",
   "recipes": {
+    "deploy-cloudflare": {
+      "version": 1,
+      "commit": "82fce4523ec914bd2e70aefd4bff84c10fb278c6",
+      "files": {
+        "scripts/staticHeaders.ts": "scripts/staticHeaders.ts",
+        "wrangler.jsonc": "wrangler.jsonc"
+      },
+      "notes": []
+    },
     "posthog-web": {
       "version": 2,
       "commit": "82fce4523ec914bd2e70aefd4bff84c10fb278c6",
