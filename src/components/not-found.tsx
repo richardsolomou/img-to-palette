@@ -1,6 +1,6 @@
-import { Button } from "@ras-sh/ui/button";
-import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Home } from "lucide-react";
+import { Button } from '@ras-sh/ui/button'
+import { Link } from '@tanstack/react-router'
+import { ArrowLeft, Home } from 'lucide-react'
 
 export function NotFound({ children }: { children?: React.ReactNode }) {
   return (
@@ -27,5 +27,5 @@ export function NotFound({ children }: { children?: React.ReactNode }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

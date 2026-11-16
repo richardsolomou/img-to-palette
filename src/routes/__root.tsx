@@ -1,71 +1,70 @@
 /// <reference types="vite/client" />
-import geistWoff2 from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
-import geistMonoWoff2 from "@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2?url";
-import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
-import type * as React from "react";
-import { DefaultCatchBoundary } from "~/components/default-catch-boundary";
-import { NotFound } from "~/components/not-found";
-import { PHProvider } from "~/components/ph-provider";
-import { seo } from "~/lib/seo";
-import appCss from "~/styles/app.css?url";
+import geistWoff2 from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url'
+import geistMonoWoff2 from '@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2?url'
+import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
+import type * as React from 'react'
+import { DefaultCatchBoundary } from '~/components/default-catch-boundary'
+import { NotFound } from '~/components/not-found'
+import { PHProvider } from '~/components/ph-provider'
+import { seo } from '~/lib/seo'
+import appCss from '~/styles/app.css?url'
 
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       {
-        charSet: "utf-8",
+        charSet: 'utf-8',
       },
       {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1",
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1',
       },
       ...seo({
-        title: "img-to-palette.ras.sh | Color Palette Generator",
-        description:
-          "🎨 Generate color palettes from any image and find the nearest Tailwind colors for quick design matching.",
+        title: 'img-to-palette.ras.sh | Color Palette Generator',
+        description: '🎨 Generate color palettes from any image and find the nearest Tailwind colors for quick design matching.',
       }),
     ],
     links: [
-      { rel: "stylesheet", href: appCss },
+      { rel: 'stylesheet', href: appCss },
       {
-        rel: "preload",
-        as: "font",
-        type: "font/woff2",
+        rel: 'preload',
+        as: 'font',
+        type: 'font/woff2',
         href: geistWoff2,
-        crossOrigin: "anonymous",
+        crossOrigin: 'anonymous',
       },
       {
-        rel: "preload",
-        as: "font",
-        type: "font/woff2",
+        rel: 'preload',
+        as: 'font',
+        type: 'font/woff2',
         href: geistMonoWoff2,
-        crossOrigin: "anonymous",
+        crossOrigin: 'anonymous',
       },
       {
-        rel: "apple-touch-icon",
-        sizes: "180x180",
-        href: "/apple-touch-icon.png",
+        rel: 'apple-touch-icon',
+        sizes: '180x180',
+        href: '/apple-touch-icon.png',
       },
       {
-        rel: "icon",
-        type: "image/png",
-        sizes: "32x32",
-        href: "/favicon-32x32.png",
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        href: '/favicon-32x32.png',
       },
       {
-        rel: "icon",
-        type: "image/png",
-        sizes: "16x16",
-        href: "/favicon-16x16.png",
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '16x16',
+        href: '/favicon-16x16.png',
       },
-      { rel: "manifest", href: "/site.webmanifest", color: "#fffff" },
-      { rel: "icon", href: "/favicon.ico" },
+      { rel: 'manifest', href: '/site.webmanifest', color: '#fffff' },
+      { rel: 'icon', href: '/favicon.ico' },
     ],
   }),
   errorComponent: DefaultCatchBoundary,
   notFoundComponent: () => <NotFound />,
   shellComponent: RootDocument,
-});
+})
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
@@ -78,5 +77,5 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
