@@ -1,6 +1,15 @@
 {
   "source": "https://github.com/richardsolomou/ras-stack",
   "recipes": {
+    "ci": {
+      "version": 1,
+      "commit": "82fce4523ec914bd2e70aefd4bff84c10fb278c6",
+      "files": {
+        ".github/dependabot.yml": ".github/dependabot.yml",
+        ".github/workflows/ci.yml": ".github/workflows/ci.yml"
+      },
+      "notes": []
+    },
     "deploy-cloudflare": {
       "version": 1,
       "commit": "82fce4523ec914bd2e70aefd4bff84c10fb278c6",
