@@ -47,9 +47,6 @@ importers:
       posthog-js:
         specifier: ^1.444.0
         version: 1.444.0(@types/react@19.3.0)(react@19.3.1)
-      ras-stack:
-        specifier: ^5.4.0
-        version: 5.4.0(@posthog/react@1.11.3(@types/react@19.3.0)(posthog-js@1.444.0(@types/react@19.3.0)(react@19.3.1))(react@19.3.1))(@tanstack/react-query@5.105.1(@types/react@19.3.0)(react@19.3.1))(@tanstack/react-start@1.169.4(esbuild@0.28.2)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rolldown@1.2.16)(rollup@4.68.2)(supports-color@10.2.2)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.1)))(posthog-js@1.444.0(@types/react@19.3.0)(react@19.3.1))(react@19.3.1)
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -99,9 +96,9 @@ importers:
       oxlint-tsgolint:
         specifier: 7.0.2005
         version: 7.0.2005
-      ras-stack-config:
-        specifier: ^3.0.0
-        version: 3.0.0
+      ras-stack:
+        specifier: ^6.0.0
+        version: 6.0.0
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3
@@ -190,14 +187,6 @@ packages:
   '@babel/types@7.29.11':
     resolution: {integrity: sha512-WCsemW40Cpc6gouC1SrY6PBaZ+oLRlEVY9XBvZBI7il/HyUrb2nJ505wE1MHEFyDZNnrWDEuy4jL50WVHfTTSQ==}
     engines: {node: '>=6.9.0'}
-
-  '@changesets/parse@1.0.0':
-    resolution: {integrity: sha512-P0iaMb9p9CRYZiTgAllEIF9AUMQHIy1G72tKlcIqJp61icZSsKQNiOPdxAMZG8m/DvZwt/oz5xEbTpike//dWg==}
-    engines: {node: ^22.11 || ^24 || >=26}
-
-  '@changesets/types@7.0.0':
-    resolution: {integrity: sha512-c5GoiQyt3pxiXjrWSNoP8/GRf4kG+VnKzovx1OQM8dYYALlSwgedmkPmJ+ZqGxqwg9D3Bkj85Uo4KLd5BN3A0w==}
-    engines: {node: ^22.11 || ^24 || >=26}
 
   '@cloudflare/kv-asset-handler@0.5.0':
     resolution: {integrity: sha512-jxQYkj8dSIzc0cD6cMMNdOc1UVjqSqu8BZdor5s8cGjW2I8BjODt/kWPVdY+u9zj3ms75Q5qaZgnxUad83+eAg==}
@@ -825,18 +814,6 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
-
-  '@manypkg/find-root@3.1.0':
-    resolution: {integrity: sha512-BcSqCyKhBVZ5YkSzOiheMCV41kqAFptW6xGqYSTjkVTl9XQpr+pqHhwgGCOHQtjDCv7Is6EFyA14Sm5GVbVABA==}
-    engines: {node: '>=20.0.0'}
-
-  '@manypkg/get-packages@3.1.0':
-    resolution: {integrity: sha512-0TbBVyvPrP7xGYBI/cP8UP+yl/z+HtbTttAD7FMAJgn/kXOTwh5/60TsqP9ZYY710forNfyV0N8P/IE/ujGZJg==}
-    engines: {node: '>=20.0.0'}
-
-  '@manypkg/tools@2.1.2':
-    resolution: {integrity: sha512-6QEf6yqFbETdwGITKq57aYoPfX/3K8XFNwsAlx0C1M7o8cb79sv1M3w+tWuWvIcSbNqrLF7OD7YpZMVVz335hQ==}
-    engines: {node: '>=20.0.0'}
 
   '@oozcitak/dom@2.0.2':
     resolution: {integrity: sha512-GjpKhkSYC3Mj4+lfwEyI1dqnsKTgwGy48ytZEhm4A/xnH/8z9M3ZVXKr/YGQi3uCLs1AEBS+x5T2JPiueEDW8w==}
@@ -3091,9 +3068,6 @@ packages:
   image-q@4.0.0:
     resolution: {integrity: sha512-PfJGVgIfKQJuq3s0tTDOKtztksibuUEbJQIYT3by6wctQo+Rdlh7ef4evJ5NCdxY4CfMbvFkocEwbl4BF8RlJw==}
 
-  import-meta-resolve@4.2.0:
-    resolution: {integrity: sha512-Iqv2fzaTQN28s/FwZAoFq0ZSs/7hMAHJVX+w8PZl3cY19Pxk6jFFalxQoIfW2826i/fDLXv8IiEZRIT0lDuWcg==}
-
   input-otp@1.4.2:
     resolution: {integrity: sha512-l3jWwYNvrEa6NTCt7BECfCm48GvwuZzkoeG3gBL2w4CHeOXW3eKFmf9UNYkNfYc3mxMrthMnxjIE07MT0zLBQA==}
     peerDependencies:
@@ -3117,9 +3091,6 @@ packages:
   jiti@2.7.0:
     resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
     hasBin: true
-
-  jju@1.4.0:
-    resolution: {integrity: sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==}
 
   jpeg-js@0.4.4:
     resolution: {integrity: sha512-WZzeDOEtTOBK4Mdsar0IqEU5sMr3vSV2RqkAIzUEV2BHnUfKGyswWFPFwK5EeDo93K3FohSHbLAjj0s1Wzd+dg==}
@@ -3543,66 +3514,10 @@ packages:
       '@types/react-dom':
         optional: true
 
-  ras-stack-config@3.0.0:
-    resolution: {integrity: sha512-O4QWgZWTT6P1kZvlpCaDWcVM46yHAtoMGLzh2P4rv2xp9wjpLOSfQDZ8Lu3jln8IibLcu9wr8kWtR8D0WQAqOg==}
-
-  ras-stack@5.4.0:
-    resolution: {integrity: sha512-O1uZap+dQhEwAPY6uvTEbuWDYGIRNSABKxzjlxhfL2SjGYz1OONPuR6hklqq28QIGFJWhWjPMxkn3pkuyXCO9Q==}
+  ras-stack@6.0.0:
+    resolution: {integrity: sha512-3T1aNCinRrLA8B71vh/b4qRkaYGffp1FEjpBmfoTOHCAteBMUE/1CVRKmTUjLNP74WzHWEUvc+rN6T9OM3151g==}
     engines: {node: '>=24 <25'}
     hasBin: true
-    peerDependencies:
-      '@libsql/client': '>=0.18 <1'
-      '@opentelemetry/api-logs': '>=0.221.0 <0.224.0'
-      '@opentelemetry/exporter-logs-otlp-http': '>=0.221.0 <0.224.0'
-      '@opentelemetry/resources': ^2.10.0
-      '@opentelemetry/sdk-logs': '>=0.221.0 <0.224.0'
-      '@posthog/react': '>=1.1 <2'
-      '@tanstack/react-query': ^5.104.1
-      '@tanstack/react-start': '>=1.168.10 <2'
-      better-sqlite3: '>=12 <14'
-      centrifuge: '>=5 <6'
-      drizzle-orm: '>=0.45 <1'
-      nodemailer: '>=9 <11'
-      postgres: '>=3.4 <4'
-      posthog-js: '>=1.430.3 <2'
-      posthog-node: '>=5.52 <6'
-      react: '>=19 <20'
-      tus-js-client: '>=4 <5'
-    peerDependenciesMeta:
-      '@libsql/client':
-        optional: true
-      '@opentelemetry/api-logs':
-        optional: true
-      '@opentelemetry/exporter-logs-otlp-http':
-        optional: true
-      '@opentelemetry/resources':
-        optional: true
-      '@opentelemetry/sdk-logs':
-        optional: true
-      '@posthog/react':
-        optional: true
-      '@tanstack/react-query':
-        optional: true
-      '@tanstack/react-start':
-        optional: true
-      better-sqlite3:
-        optional: true
-      centrifuge:
-        optional: true
-      drizzle-orm:
-        optional: true
-      nodemailer:
-        optional: true
-      postgres:
-        optional: true
-      posthog-js:
-        optional: true
-      posthog-node:
-        optional: true
-      react:
-        optional: true
-      tus-js-client:
-        optional: true
 
   react-day-picker@9.14.0:
     resolution: {integrity: sha512-tBaoDWjPwe0M5pGrum4H0SR6Lyk+BO9oHnp9JbKpGKW2mlraNPgP9BMfsg5pWpwrssARmeqk7YBl2oXutZTaHA==}
@@ -4257,13 +4172,6 @@ snapshots:
       '@babel/helper-string-parser': 7.29.11
       '@babel/helper-validator-identifier': 7.29.7
 
-  '@changesets/parse@1.0.0':
-    dependencies:
-      '@changesets/types': 7.0.0
-      yaml: 2.9.1
-
-  '@changesets/types@7.0.0': {}
-
   '@cloudflare/kv-asset-handler@0.5.0': {}
 
   '@cloudflare/unenv-preset@2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261023.1)':
@@ -4696,21 +4604,6 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
-
-  '@manypkg/find-root@3.1.0':
-    dependencies:
-      '@manypkg/tools': 2.1.2
-
-  '@manypkg/get-packages@3.1.0':
-    dependencies:
-      '@manypkg/find-root': 3.1.0
-      '@manypkg/tools': 2.1.2
-
-  '@manypkg/tools@2.1.2':
-    dependencies:
-      jju: 1.4.0
-      tinyglobby: 0.2.17
-      yaml: 2.9.1
 
   '@oozcitak/dom@2.0.2':
     dependencies:
@@ -6788,8 +6681,6 @@ snapshots:
     dependencies:
       '@types/node': 16.9.1
 
-  import-meta-resolve@4.2.0: {}
-
   input-otp@1.4.2(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
     dependencies:
       react: 19.3.1
@@ -6810,8 +6701,6 @@ snapshots:
       - encoding
 
   jiti@2.7.0: {}
-
-  jju@1.4.0: {}
 
   jpeg-js@0.4.4: {}
 
@@ -7233,20 +7122,7 @@ snapshots:
       '@types/react': 19.3.0
       '@types/react-dom': 19.3.0(@types/react@19.3.0)
 
-  ras-stack-config@3.0.0: {}
-
-  ras-stack@5.4.0(@posthog/react@1.11.3(@types/react@19.3.0)(posthog-js@1.444.0(@types/react@19.3.0)(react@19.3.1))(react@19.3.1))(@tanstack/react-query@5.105.1(@types/react@19.3.0)(react@19.3.1))(@tanstack/react-start@1.169.4(esbuild@0.28.2)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rolldown@1.2.16)(rollup@4.68.2)(supports-color@10.2.2)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.1)))(posthog-js@1.444.0(@types/react@19.3.0)(react@19.3.1))(react@19.3.1):
-    dependencies:
-      '@changesets/parse': 1.0.0
-      '@manypkg/get-packages': 3.1.0
-      import-meta-resolve: 4.2.0
-      yaml: 2.9.1
-    optionalDependencies:
-      '@posthog/react': 1.11.3(@types/react@19.3.0)(posthog-js@1.444.0(@types/react@19.3.0)(react@19.3.1))(react@19.3.1)
-      '@tanstack/react-query': 5.105.1(@types/react@19.3.0)(react@19.3.1)
-      '@tanstack/react-start': 1.169.4(esbuild@0.28.2)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rolldown@1.2.16)(rollup@4.68.2)(supports-color@10.2.2)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.9.1))
-      posthog-js: 1.444.0(@types/react@19.3.0)(react@19.3.1)
-      react: 19.3.1
+  ras-stack@6.0.0: {}
 
   react-day-picker@9.14.0(react@19.3.1):
     dependencies:
@@ -7766,7 +7642,8 @@ snapshots:
 
   yallist@3.1.1: {}
 
-  yaml@2.9.1: {}
+  yaml@2.9.1:
+    optional: true
 
   youch-core@0.3.3:
     dependencies:

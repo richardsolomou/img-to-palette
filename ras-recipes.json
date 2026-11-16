@@ -89,8 +89,8 @@
         "Keeps the `fix` script and the lefthook pre-commit hook that runs it, which the application had before adopting recipes.",
         "Keeps the `~/*` path alias in `tsconfig.json`, which every application module imports through.",
         "Ignores `.wrangler/`, `.tanstack/`, `coverage/`, and `.DS_Store` in `.gitignore` as well.",
-        "`allowBuilds` also lists `lefthook: true` for its git hook install, `workerd: true` for Wrangler, `core-js: true`, and `protobufjs: false`, which the dependency tree pulls in.",
-        "`.oxlintrc.json` turns off `import/default`, which cannot see the default export of Vite `?worker` imports, and `react/no-array-index-key`, because palette and match lists can repeat a hex value."
+        "`.oxlintrc.json` turns off `import/default`, which cannot see the default export of Vite `?worker` imports, and `react/no-array-index-key`, because palette and match lists can repeat a hex value.",
+        "`allowBuilds` also lists `lefthook: true` for its git hook install."
       ]
     }
   }
