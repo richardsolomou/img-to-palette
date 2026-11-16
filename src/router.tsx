@@ -1,5 +1,6 @@
 import { createRouter } from '@tanstack/react-router'
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query'
+import { captureRenderError } from './client/posthog'
 import { createQueryClient } from './client/queryClient'
 import { DefaultCatchBoundary } from './components/default-catch-boundary'
 import { NotFound } from './components/not-found'
@@ -12,6 +13,7 @@ export function getRouter() {
     context: { queryClient },
     defaultPreload: 'intent',
     scrollRestoration: true,
+    defaultOnCatch: captureRenderError,
     defaultErrorComponent: DefaultCatchBoundary,
     defaultNotFoundComponent: () => <NotFound />,
   })
